@@ -17,7 +17,7 @@ jobs:
     timeout-minutes: 15
     runs-on: windows-latest
     env:
-      solution: 'Meteostanice.sln'
+      solution: 'OpenHalo.sln'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
