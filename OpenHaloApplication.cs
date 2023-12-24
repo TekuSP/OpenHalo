@@ -6,13 +6,17 @@ using System.Threading;
 using System.Device.Gpio;
 using System.Diagnostics;
 using nanoFramework.Hardware.Esp32;
+using System.IO;
+using Windows.Storage;
+using nanoFramework.Json;
+using OpenHalo.Configs;
 
 namespace OpenHalo
 {
     public class OpenHaloApplication : Application
     {
         static Window mainWindow;
-
+        static MainConfig config;
         public static void Main()
         {
             int backLightPin = 8;
@@ -43,14 +47,33 @@ namespace OpenHalo
             OpenHaloApplication myApplication = new OpenHaloApplication();
             Console.WriteLine("Framework initialized!");
             Console.WriteLine("Loading config...");
-
-
-            Console.WriteLine("Loading first time setup window...");
-
-
-            Console.WriteLine("Loading connecting window...");
-
-
+            Console.WriteLine("Searching for configuration file...");
+            if (File.Exists("I:\\configuration.json"))
+            {
+                Console.WriteLine("Found configuration file, reading...");
+                var file = StorageFile.GetFileFromPath("I:\\configuration.json");
+                var configString = FileIO.ReadText(file);
+                try
+                {
+                    config = (MainConfig)JsonConvert.DeserializeObject(configString, typeof(MainConfig));
+                    Console.WriteLine("Configuration file read succesfully.");
+                }
+                catch
+                {
+                    Console.WriteLine("Configuration file damaged. Recreating file.");
+                    file.Delete();
+                }
+            }
+            if (!File.Exists("I:\\configuration.json"))
+            {
+                Console.WriteLine("No configuration loaded.");
+                Console.WriteLine("Loading first time setup window...");
+            }
+            else
+            {
+                Console.WriteLine("Configuration loaded.");
+                Console.WriteLine("Loading connecting window...");
+            }
             Console.WriteLine("Rendering and launching app!");
             myApplication.Run(mainWindow);
         }
