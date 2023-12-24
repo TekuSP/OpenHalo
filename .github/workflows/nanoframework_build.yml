@@ -1,0 +1,88 @@
+# Copyright (c) .NET Foundation and Contributors
+# https://github.com/networkfusion/MBN-TinyCLR/ original build, merged with https://github.com/TekuSP/Meteostanice-CSharp/
+
+name: Build Nanoframework
+
+on: [push, pull_request]
+
+defaults:
+  run:
+    shell: pwsh
+jobs:
+  Build:
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+    name: Build NanoFramework SLN
+    timeout-minutes: 15
+    runs-on: windows-latest
+    env:
+      solution: 'Meteostanice.sln'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 7.0.x
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'zulu' # Alternative distribution options are available.
+
+      - name: Setup MSBuild Path
+        uses: microsoft/setup-msbuild@v1.1
+        with:
+          msbuild-architecture: x64
+
+      # https://github.com/NuGet/setup-nuget
+      - name: Install NuGet client
+        uses: nuget/setup-nuget@v1
+        with:
+          nuget-version: 'latest'
+          
+      - name: Install Nanoframework Extension
+        uses: nanoframework/nanobuild@v1
+        env:
+          GITHUB_AUTH_TOKEN: ${{ secrets.githubAuth }}
+          
+      - name: Restore nugets
+        run: nuget restore ${{ env.solution }} -ConfigFile nuget.config
+        
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~\sonar\cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache SonarCloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v3
+        with:
+          path: .\.sonar\scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+
+      - name: Install SonarCloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          New-Item -Path .\.sonar\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+          
+      - name: Build Nanoframework and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          Configuration: ${{ matrix.configuration }}
+        shell: powershell
+        run: |
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"TekuSP_Meteostanice-CSharp" /o:"tekusp" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+           msbuild ${{ env.solution }} /p:Configuration=$env:Configuration
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
