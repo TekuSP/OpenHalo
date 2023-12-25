@@ -10,6 +10,7 @@ using System.IO;
 using Windows.Storage;
 using nanoFramework.Json;
 using OpenHalo.Configs;
+using OpenHalo.Windows;
 
 namespace OpenHalo
 {
@@ -25,7 +26,8 @@ namespace OpenHalo
             int reset = 13;
 
             Console.WriteLine("OpenHalo starting!");
-            Diag.PrintMemory("OpenHalo");
+            Console.WriteLine("Memory test...");
+            Diagnostics.PrintMemory("OpenHalo");
             Console.WriteLine("Starting proceeding!");
             Console.WriteLine("Initializing screen SPI...");
             Console.WriteLine("1 MISO");
@@ -73,18 +75,24 @@ namespace OpenHalo
             {
                 Console.WriteLine("Configuration loaded.");
                 Console.WriteLine("Loading connecting window...");
+                mainWindow = new EnterSetup(myApplication);
             }
+
+            //DEBUG! TESTING ONLY!
+            mainWindow = new EnterSetup(myApplication);
+            //REMOVE WHEN DONE
+
             Console.WriteLine("Rendering and launching app!");
             myApplication.Run(mainWindow);
         }
     }
-    public static class Diag
+    public static class Diagnostics
     {
         public static void PrintMemory(string msg)
         {
             NativeMemory.GetMemoryInfo(NativeMemory.MemoryType.Internal, out uint totalSize, out uint totalFreeSize, out uint largestBlock);
             Console.WriteLine($"\n{msg}-> Internal Total Mem {totalSize} Total Free {totalFreeSize} Largest Block {largestBlock}");
-            //Debug.WriteLine($"nF Mem {Memory.Run(false)}\n ");
+            Debug.WriteLine($"nF Mem {nanoFramework.Runtime.Native.GC.Run(false)}\n ");
             NativeMemory.GetMemoryInfo(NativeMemory.MemoryType.SpiRam, out uint totalSize1, out uint totalFreeSize1, out uint largestBlock1);
             Console.WriteLine($"\n{msg}-> SpiRam Total Mem {totalSize1} Total Free {totalFreeSize1} Largest Block {largestBlock1}");
         }
