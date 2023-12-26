@@ -44,6 +44,7 @@ namespace OpenHalo.Resources
         internal enum BitmapResources : short
         {
             settings = -20938,
+            wifiConnect = -18698,
             reboot = 9673,
             moonraker = 15675,
             wifi = 17980,

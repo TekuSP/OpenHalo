@@ -35,6 +35,9 @@
     <Compile Include="Windows\Setup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Iot.Device.DhcpServer">
+      <HintPath>packages\nanoFramework.Iot.Device.DhcpServer.1.2.407\lib\Iot.Device.DhcpServer.dll</HintPath>
+    </Reference>
     <Reference Include="MakoIoT.Device.Services.Interface, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>packages\MakoIoT.Device.Services.Interface.1.0.43.29288\lib\MakoIoT.Device.Services.Interface.dll</HintPath>
       <Private>True</Private>
@@ -178,6 +181,7 @@
     <Content Include="Resources\Icons\moonraker.jpg" />
     <Content Include="Resources\Icons\reboot.jpg" />
     <Content Include="Resources\Icons\wifi.jpg" />
+    <Content Include="Resources\Icons\wifiConnect.jpg" />
     <None Include="packages.config" />
     <Content Include="Resources\Fonts\courierregular10.tinyfnt" />
     <Content Include="Resources\Fonts\NinaB.tinyfnt" />

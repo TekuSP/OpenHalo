@@ -24,6 +24,7 @@ namespace OpenHalo
         public static Font SmallFont;
         public static void Main()
         {
+            Thread.Sleep(15000);
             int backLightPin = 8;
             int chipSelect = 10;
             int dataCommand = 9;
@@ -78,6 +79,7 @@ namespace OpenHalo
             {
                 Console.WriteLine("No configuration loaded.");
                 Console.WriteLine("Loading first time setup window...");
+                mainWindow = new Setup(myApplication);
             }
             else
             {
