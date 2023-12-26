@@ -6,6 +6,9 @@ using nanoFramework.UI.Input;
 using nanoFramework.UI;
 using nanoFramework.Presentation.Controls;
 using OpenHalo.Resources;
+using System.Threading;
+using nanoFramework.Networking;
+using System.Net.NetworkInformation;
 
 namespace OpenHalo.Windows
 {

@@ -12,6 +12,7 @@ using nanoFramework.Json;
 using OpenHalo.Configs;
 using OpenHalo.Windows;
 using OpenHalo.Resources;
+using nanoFramework.Networking;
 
 namespace OpenHalo
 {
@@ -102,6 +103,30 @@ namespace OpenHalo
             Debug.WriteLine($"nF Mem {nanoFramework.Runtime.Native.GC.Run(false)}\n ");
             NativeMemory.GetMemoryInfo(NativeMemory.MemoryType.SpiRam, out uint totalSize1, out uint totalFreeSize1, out uint largestBlock1);
             Console.WriteLine($"\n{msg}-> SpiRam Total Mem {totalSize1} Total Free {totalFreeSize1} Largest Block {largestBlock1}");
+        }
+        public static string GetNetworkStatus(NetworkHelperStatus networkHelperStatus)
+        {
+            switch (networkHelperStatus)
+            {
+                case NetworkHelperStatus.None:
+                    return "None";
+                case NetworkHelperStatus.Started:
+                    return "Started";
+                case NetworkHelperStatus.NetworkIsReady:
+                    return "Network is ready";
+                case NetworkHelperStatus.FailedNoNetworkInterface:
+                    return "Failed, no network interface";
+                case NetworkHelperStatus.TokenExpiredWaitingIPAddress:
+                    return "Token expired waiting for IP Address";
+                case NetworkHelperStatus.TokenExpiredWaitingDateTime:
+                    return "Token expired waiting for NTP";
+                case NetworkHelperStatus.ErrorConnetingToWiFiWhileScanning:
+                    return "Error connecting to WiFi while scanning";
+                case NetworkHelperStatus.ExceptionOccurred:
+                    return "Exception occured";
+                default:
+                    return "Unknown";
+            }
         }
     }
 }

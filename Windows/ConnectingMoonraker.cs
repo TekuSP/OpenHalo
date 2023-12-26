@@ -2,38 +2,40 @@
 using System.Text;
 
 using nanoFramework.Presentation;
+using nanoFramework.Presentation.Controls;
 using nanoFramework.UI.Input;
 using nanoFramework.UI;
-using nanoFramework.Presentation.Controls;
 using OpenHalo.Resources;
+using System.Net.Http;
 using System.Threading;
+using OpenHalo.Helpers;
 
 namespace OpenHalo.Windows
 {
-    public class EnterSetup : Window
+    public class ConnectingMoonraker : Window
     {
-        private Text countdownText;
-        private Timer timer;
         private OpenHaloApplication App
         {
             get; set;
         }
-        public EnterSetup(OpenHaloApplication application)
+        public ConnectingMoonraker(OpenHaloApplication application)
         {
             App = application;
             Visibility = Visibility.Visible;
             Width = DisplayControl.ScreenWidth;
             Height = DisplayControl.ScreenHeight;
             Buttons.Focus(this);
+            StackPanel panel = new StackPanel();
+            Child = panel;
 
             Background = new nanoFramework.Presentation.Media.SolidColorBrush(System.Drawing.Color.Black);
             Foreground = new nanoFramework.Presentation.Media.SolidColorBrush(System.Drawing.Color.White);
             StackPanel stackPanel = new StackPanel();
-            stackPanel.SetMargin(0,30,0,0);
+            stackPanel.SetMargin(0, 30, 0, 0);
             Child = stackPanel;
             stackPanel.Visibility = Visibility.Visible;
 
-            Text logoText = new Text(OpenHaloApplication.NinaBFont,"OpenHalo");
+            Text logoText = new Text(OpenHaloApplication.NinaBFont, "OpenHalo");
             logoText.VerticalAlignment = VerticalAlignment.Center;
             logoText.HorizontalAlignment = HorizontalAlignment.Center;
             logoText.ForeColor = System.Drawing.Color.White;
@@ -41,12 +43,12 @@ namespace OpenHalo.Windows
             logoText.SetMargin(0, 0, 0, 10);
             stackPanel.Children.Add(logoText);
 
-            Image logo = new Image(ResourceDictionary.GetBitmap(ResourceDictionary.BitmapResources.settings));
+            Image logo = new Image(ResourceDictionary.GetBitmap(ResourceDictionary.BitmapResources.moonraker));
             logo.HorizontalAlignment = HorizontalAlignment.Center;
             logo.Visibility = Visibility.Visible;
             stackPanel.Children.Add(logo);
 
-            Text settText = new Text(OpenHaloApplication.SmallFont,"To interrupt startup and enter settings,");
+            Text settText = new Text(OpenHaloApplication.SmallFont, "To interrupt startup and enter settings,");
             settText.VerticalAlignment = VerticalAlignment.Center;
             settText.HorizontalAlignment = HorizontalAlignment.Center;
             settText.ForeColor = System.Drawing.Color.White;
@@ -59,40 +61,26 @@ namespace OpenHalo.Windows
             touchText.ForeColor = System.Drawing.Color.White;
             stackPanel.Children.Add(touchText);
 
-            countdownText = new Text(OpenHaloApplication.SmallFont, "Continues boot in 10 seconds.");
-            countdownText.ForeColor = System.Drawing.Color.White;
-            countdownText.VerticalAlignment = VerticalAlignment.Center;
-            countdownText.HorizontalAlignment = HorizontalAlignment.Center;
-            countdownText.SetMargin(0, 20, 0, 0);
-            stackPanel.Children.Add(countdownText);
-            int tries = 10;
-            timer = new Timer((args) =>
+            Text connnectingText = new Text(OpenHaloApplication.SmallFont, "Connecting to Moonraker:");
+            connnectingText.VerticalAlignment = VerticalAlignment.Center;
+            connnectingText.HorizontalAlignment = HorizontalAlignment.Center;
+            connnectingText.ForeColor = System.Drawing.Color.White;
+            connnectingText.SetMargin(0, 10, 0, 0);
+            stackPanel.Children.Add(connnectingText);
+
+            Text wifiText = new Text(OpenHaloApplication.SmallFont, OpenHaloApplication.config.MoonrakerUri);
+            wifiText.VerticalAlignment = VerticalAlignment.Center;
+            wifiText.HorizontalAlignment = HorizontalAlignment.Center;
+            wifiText.ForeColor = System.Drawing.Color.White;
+            stackPanel.Children.Add(wifiText);
+
+            Thread th = new Thread(() =>
             {
-                tries--;
-                countdownText.Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
-                {
-                    countdownText.TextContent = $"Continues boot in {tries} seconds.";
-                    return null;
-                }, null);
-                if (tries <= 0)
-                {
-                    App.MainWindow.Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
-                    {
-                        timer.Dispose();
-                        timer = null;
-                        App.MainWindow = new ConnectingWIFI(App); //Open Connecting WIFI Dialog
-                        Close();
-                        return null;
-                    }, null);
-                }
-            }, null, 0, 1000);
-        }
-        protected override void OnButtonDown(ButtonEventArgs e)
-        {
-            timer?.Dispose();
-            timer = null;
-            App.MainWindow = new Setup(App); //Open Setup
-            Close();
+                var client = HttpClientHelper.HttpClient();
+                var str = client.GetString($"http://{OpenHaloApplication.config.MoonrakerUri}/printer/objects/query?webhooks&virtual_sdcard&print_stats");
+                Console.WriteLine(str);
+            });
+            th.Start();
         }
     }
 }
