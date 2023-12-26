@@ -168,6 +168,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Icons\moonraker.jpg" />
     <Content Include="Resources\Icons\wifi.jpg" />
     <None Include="packages.config" />
     <Content Include="Resources\Fonts\courierregular10.tinyfnt" />

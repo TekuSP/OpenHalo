@@ -13,6 +13,7 @@ namespace OpenHalo.Windows
     public class EnterSetup : Window
     {
         private Text countdownText;
+        private Timer timer;
         private OpenHaloApplication App
         {
             get; set;
@@ -65,7 +66,7 @@ namespace OpenHalo.Windows
             countdownText.SetMargin(0, 20, 0, 0);
             stackPanel.Children.Add(countdownText);
             int tries = 10;
-            Timer timer = new Timer((args) =>
+            timer = new Timer((args) =>
             {
                 tries--;
                 countdownText.Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
@@ -77,6 +78,8 @@ namespace OpenHalo.Windows
                 {
                     App.MainWindow.Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
                     {
+                        timer.Dispose();
+                        timer = null;
                         App.MainWindow = new ConnectingWIFI(App); //Open Connecting WIFI Dialog
                         Close();
                         return null;
