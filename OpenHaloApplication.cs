@@ -11,36 +11,44 @@ using Windows.Storage;
 using nanoFramework.Json;
 using OpenHalo.Configs;
 using OpenHalo.Windows;
+using OpenHalo.Resources;
 
 namespace OpenHalo
 {
     public class OpenHaloApplication : Application
     {
         static Window mainWindow;
-        static MainConfig config;
+        public static MainConfig config;
+        public static Font NinaBFont;
+        public static Font SmallFont;
         public static void Main()
         {
+            Thread.Sleep(5000);
             int backLightPin = 8;
             int chipSelect = 10;
             int dataCommand = 9;
             int reset = 13;
-
             Console.WriteLine("OpenHalo starting!");
             Console.WriteLine("Memory test...");
             Diagnostics.PrintMemory("OpenHalo");
             Console.WriteLine("Starting proceeding!");
             Console.WriteLine("Initializing screen SPI...");
             Console.WriteLine("1 MISO");
-            Console.WriteLine("11 MOSI");
-            Console.WriteLine("12 CLOCK");
             Configuration.SetPinFunction(1, DeviceFunction.SPI1_MISO);
+            Console.WriteLine("11 MOSI");
             Configuration.SetPinFunction(11, DeviceFunction.SPI1_MOSI);
+            Console.WriteLine("12 CLOCK");
             Configuration.SetPinFunction(12, DeviceFunction.SPI1_CLOCK);
             Console.WriteLine("SPI Initialized!");
             Console.WriteLine("Initializing screen GC9A01...");
             DisplayControl.Initialize(new SpiConfiguration(1, chipSelect, dataCommand, reset, -1), new ScreenConfiguration(0, 0, 240, 240), 200000);
             Console.WriteLine("Initialized screen 240x240 with 200000 bytes of memory!");
             Console.WriteLine($"Screen is using CS: {chipSelect}, DC: {dataCommand} and RST {reset}");
+            Console.WriteLine("Initializing fonts....");
+            Console.WriteLine("Loading NinaB...");
+            NinaBFont = ResourceDictionary.GetFont(ResourceDictionary.FontResources.NinaB);
+            Console.WriteLine("Loading small....");
+            SmallFont = ResourceDictionary.GetFont(ResourceDictionary.FontResources.small);
             Console.WriteLine("Initializing backlight...");
             new GpioController().OpenPin(backLightPin, PinMode.Output);
             new GpioController().Write(backLightPin, PinValue.High);

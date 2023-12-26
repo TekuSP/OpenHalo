@@ -21,16 +21,12 @@
     <Compile Include="Configs\MainConfig.cs" />
     <Compile Include="OpenHaloApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\IconResources.Designer.cs">
+    <Compile Include="Resources\ResourceDictionary.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>IconResources.resx</DependentUpon>
+      <DependentUpon>ResourceDictionary.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\SetupWebpageResources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>SetupWebpageResources.resx</DependentUpon>
-    </Compile>
+    <Compile Include="Windows\ConnectingWIFI.cs" />
     <Compile Include="Windows\EnterSetup.cs" />
     <Compile Include="Windows\Setup.cs" />
   </ItemGroup>
@@ -120,6 +116,9 @@
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
+    <Reference Include="System.Device.I2c">
+      <HintPath>packages\nanoFramework.System.Device.I2c.1.1.16\lib\System.Device.I2c.dll</HintPath>
+    </Reference>
     <Reference Include="System.IO.FileSystem, Version=1.1.32.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>packages\nanoFramework.System.IO.FileSystem.1.1.32\lib\System.IO.FileSystem.dll</HintPath>
       <Private>True</Private>
@@ -129,6 +128,9 @@
       <HintPath>packages\nanoFramework.System.IO.Streams.1.1.52\lib\System.IO.Streams.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Math">
+      <HintPath>packages\nanoFramework.System.Math.1.5.43\lib\System.Math.dll</HintPath>
     </Reference>
     <Reference Include="System.Net, Version=1.10.64.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>packages\nanoFramework.System.Net.1.10.64\lib\System.Net.dll</HintPath>
@@ -145,6 +147,15 @@
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
+    <Reference Include="TekuSP.Drivers.CST816D">
+      <HintPath>packages\TekuSP.Drivers.CST816D.0.3.6\lib\TekuSP.Drivers.CST816D.dll</HintPath>
+    </Reference>
+    <Reference Include="TekuSP.Drivers.DriverBase">
+      <HintPath>packages\TekuSP.Drivers.DriverBase.0.3.6\lib\TekuSP.Drivers.DriverBase.dll</HintPath>
+    </Reference>
+    <Reference Include="TekuSP.Drivers.DriverBaseI2C">
+      <HintPath>packages\TekuSP.Drivers.DriverBaseI2C.0.3.6\lib\TekuSP.Drivers.DriverBaseI2C.dll</HintPath>
+    </Reference>
     <Reference Include="Windows.Storage, Version=1.5.45.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>packages\nanoFramework.Windows.Storage.1.5.45\lib\Windows.Storage.dll</HintPath>
       <Private>True</Private>
@@ -157,16 +168,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Icons\wifi.jpg" />
     <None Include="packages.config" />
+    <Content Include="Resources\Fonts\courierregular10.tinyfnt" />
+    <Content Include="Resources\Fonts\NinaB.tinyfnt" />
+    <Content Include="Resources\Fonts\small.tinyfnt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\IconResources.resx">
+    <EmbeddedResource Include="Resources\ResourceDictionary.resx">
       <Generator>nFResXFileCodeGenerator</Generator>
-      <LastGenOutput>IconResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\SetupWebpageResources.resx">
-      <Generator>nFResXFileCodeGenerator</Generator>
-      <LastGenOutput>SetupWebpageResources.Designer.cs</LastGenOutput>
+      <LastGenOutput>ResourceDictionary.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

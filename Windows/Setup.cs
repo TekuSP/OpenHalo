@@ -20,6 +20,9 @@ namespace OpenHalo.Windows
             Width = DisplayControl.ScreenWidth;
             Height = DisplayControl.ScreenHeight;
             Buttons.Focus(this);
+
+            Background = new nanoFramework.Presentation.Media.SolidColorBrush(System.Drawing.Color.Black);
+            Foreground = new nanoFramework.Presentation.Media.SolidColorBrush(System.Drawing.Color.White);
         }
     }
 }

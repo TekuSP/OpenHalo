@@ -11,28 +11,40 @@
 namespace OpenHalo.Resources
 {
     
-    internal partial class IconResources
+    internal partial class ResourceDictionary
     {
         private static System.Resources.ResourceManager manager;
         internal static System.Resources.ResourceManager ResourceManager
         {
             get
             {
-                if ((IconResources.manager == null))
+                if ((ResourceDictionary.manager == null))
                 {
-                    IconResources.manager = new System.Resources.ResourceManager("OpenHalo.Resources.IconResources", typeof(IconResources).Assembly);
+                    ResourceDictionary.manager = new System.Resources.ResourceManager("OpenHalo.Resources.ResourceDictionary", typeof(ResourceDictionary).Assembly);
                 }
-                return IconResources.manager;
+                return ResourceDictionary.manager;
             }
         }
-        internal static nanoFramework.UI.Bitmap GetBitmap(IconResources.BitmapResources id)
+        internal static nanoFramework.UI.Bitmap GetBitmap(ResourceDictionary.BitmapResources id)
         {
             return ((nanoFramework.UI.Bitmap)(nanoFramework.Runtime.Native.ResourceUtility.GetObject(ResourceManager, id)));
+        }
+        internal static nanoFramework.UI.Font GetFont(ResourceDictionary.FontResources id)
+        {
+            return ((nanoFramework.UI.Font)(nanoFramework.Runtime.Native.ResourceUtility.GetObject(ResourceManager, id)));
+        }
+        [System.SerializableAttribute()]
+        internal enum FontResources : short
+        {
+            courierregular10 = -25095,
+            small = 13070,
+            NinaB = 18060,
         }
         [System.SerializableAttribute()]
         internal enum BitmapResources : short
         {
             settings = -20938,
+            wifi = 17980,
         }
     }
 }
