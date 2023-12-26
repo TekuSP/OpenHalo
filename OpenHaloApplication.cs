@@ -23,7 +23,6 @@ namespace OpenHalo
         public static Font SmallFont;
         public static void Main()
         {
-            Thread.Sleep(5000);
             int backLightPin = 8;
             int chipSelect = 10;
             int dataCommand = 9;
