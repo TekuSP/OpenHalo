@@ -56,7 +56,7 @@ namespace OpenHalo.Windows
 
             var reboot = new Thread(() =>
             {
-                Thread.Sleep(5000);
+                Thread.Sleep(2500);
                 nanoFramework.Runtime.Native.Power.RebootDevice();
             });
             reboot.Start();

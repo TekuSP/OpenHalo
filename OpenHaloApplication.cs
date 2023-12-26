@@ -13,6 +13,7 @@ using OpenHalo.Configs;
 using OpenHalo.Windows;
 using OpenHalo.Resources;
 using nanoFramework.Networking;
+using System.Device.Pwm;
 
 namespace OpenHalo
 {
@@ -22,13 +23,21 @@ namespace OpenHalo
         public static MainConfig config;
         public static Font NinaBFont;
         public static Font SmallFont;
+        public static PwmChannel BackLightPWM
+        {
+            get; set;
+        }
         public static void Main()
         {
+#if DEBUG
             Thread.Sleep(15000);
+#endif
             int backLightPin = 8;
             int chipSelect = 10;
             int dataCommand = 9;
             int reset = 13;
+            int i2c_clock = 40;
+            int i2c_data = 39;
             Console.WriteLine("OpenHalo starting!");
             Console.WriteLine("Memory test...");
             Diagnostics.PrintMemory("OpenHalo");
@@ -41,6 +50,15 @@ namespace OpenHalo
             Console.WriteLine("12 CLOCK");
             Configuration.SetPinFunction(12, DeviceFunction.SPI1_CLOCK);
             Console.WriteLine("SPI Initialized!");
+            Console.WriteLine("Initializing touchscreen I2C...");
+            Console.WriteLine("40 CLOCK");
+            Configuration.SetPinFunction(i2c_clock, DeviceFunction.I2C1_CLOCK);
+            Console.WriteLine("39 DATA");
+            Configuration.SetPinFunction(i2c_data, DeviceFunction.I2C1_DATA);
+            Console.WriteLine("I2C Initialized!");
+            Console.WriteLine("Initializing display PWM Backlight....");
+            nanoFramework.Hardware.Esp32.Configuration.SetPinFunction(backLightPin, DeviceFunction.PWM3);
+            Console.WriteLine("PWM Initialized!");
             Console.WriteLine("Initializing screen GC9A01...");
             DisplayControl.Initialize(new SpiConfiguration(1, chipSelect, dataCommand, reset, -1), new ScreenConfiguration(0, 0, 240, 240), 200000);
             Console.WriteLine("Initialized screen 240x240 with 200000 bytes of memory!");
@@ -51,8 +69,8 @@ namespace OpenHalo
             Console.WriteLine("Loading small....");
             SmallFont = ResourceDictionary.GetFont(ResourceDictionary.FontResources.small);
             Console.WriteLine("Initializing backlight...");
-            new GpioController().OpenPin(backLightPin, PinMode.Output);
-            new GpioController().Write(backLightPin, PinValue.High);
+            BackLightPWM = PwmChannel.CreateFromPin(backLightPin, 400);
+            SetBrigtness(0.5);
             Console.WriteLine($"Backlight initialized on pin: {backLightPin} !");
             Console.WriteLine("Initializing WPF framework...");
             OpenHaloApplication myApplication = new OpenHaloApplication();
@@ -94,6 +112,10 @@ namespace OpenHalo
 
             Console.WriteLine("Rendering and launching app!");
             myApplication.Run(mainWindow);
+        }
+        public static void SetBrigtness(double brigtness)
+        {
+            BackLightPWM.DutyCycle = brigtness;
         }
     }
     public static class Diagnostics
