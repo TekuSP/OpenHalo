@@ -4,8 +4,15 @@ using System.Text;
 
 namespace OpenHalo.Helpers
 {
-    public static class HttpClientHelper
+    /// <summary>
+    /// HTTP Helpers
+    /// </summary>
+    public static class HttpHelpers
     {
+        /// <summary>
+        /// HttpClient which contains Api Key for Moonraker
+        /// </summary>
+        /// <returns>Moonraker valid Http Client</returns>
         public static HttpClient HttpClient()
         {
             HttpClient client = new HttpClient();

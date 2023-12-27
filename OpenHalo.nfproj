@@ -19,7 +19,8 @@
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
     <Compile Include="Configs\MainConfig.cs" />
-    <Compile Include="Helpers\HttpClientHelper.cs" />
+    <Compile Include="Helpers\HttpHelpers.cs" />
+    <Compile Include="Helpers\Networking.cs" />
     <Compile Include="OpenHaloApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\ResourceDictionary.Designer.cs">

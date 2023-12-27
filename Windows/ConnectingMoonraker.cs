@@ -76,7 +76,7 @@ namespace OpenHalo.Windows
 
             Thread th = new Thread(() =>
             {
-                var client = HttpClientHelper.HttpClient();
+                var client = HttpHelpers.HttpClient();
                 var str = client.GetString($"http://{OpenHaloApplication.config.MoonrakerUri}/printer/objects/query?webhooks&virtual_sdcard&print_stats");
                 Console.WriteLine(str);
             });

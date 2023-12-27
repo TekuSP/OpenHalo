@@ -7,6 +7,8 @@ using nanoFramework.UI;
 using nanoFramework.Presentation.Controls;
 using OpenHalo.Resources;
 using System.Threading;
+using System.Net.NetworkInformation;
+using OpenHalo.Helpers;
 
 namespace OpenHalo.Windows
 {
@@ -80,6 +82,11 @@ namespace OpenHalo.Windows
                     {
                         timer.Dispose();
                         timer = null;
+                        if (!Networking.IsClientModeEnabled() || !Networking.IsModeValid())
+                        {
+                            Networking.EnableClientMode(this, App);
+                            return null;
+                        }    
                         App.MainWindow = new ConnectingWIFI(App); //Open Connecting WIFI Dialog
                         Close();
                         return null;
