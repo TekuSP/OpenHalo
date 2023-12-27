@@ -9,27 +9,83 @@ using OpenHalo.Resources;
 using System.Threading;
 using nanoFramework.Networking;
 using System.Net.NetworkInformation;
+using OpenHalo.Helpers;
 
 namespace OpenHalo.Windows
 {
-    public class ConnectingWIFI : Window
+    public class ConnectingWIFI : HaloWindow
     {
-        private OpenHaloApplication App
+        private Text wifiText;
+        private Text atttemptText;
+        public ConnectingWIFI(OpenHaloApplication application) : base(application)
         {
-            get; set;
         }
-        public ConnectingWIFI(OpenHaloApplication application)
+
+        public override void OnLoaded()
         {
-            App = application;
-            Visibility = Visibility.Visible;
-            Width = DisplayControl.ScreenWidth;
-            Height = DisplayControl.ScreenHeight;
-            Buttons.Focus(this);
+            Console.WriteLine("Wifi Connections init....");
+            if (!Networking.IsClientModeEnabled() || !Networking.IsModeValid())
+            {
+                Console.WriteLine("We are in wrong WiFi mode, or mode is invalid!");
+                Networking.EnableClientMode(this, App);
+                return;
+            }
+            Configs.Wifi permanent = null;
+            while (WifiNetworkHelper.Status != NetworkHelperStatus.NetworkIsReady)
+            {
+                foreach (var item in OpenHaloApplication.config.Wifis)
+                {
+                    int tries = 5;
+                    wifiText.Dispatcher.Invoke(TimeSpan.MaxValue, (args) => { wifiText.TextContent = item.SSID; atttemptText.TextContent = "Attempt: " + (tries - 5 + 1); return null; }, null);
+                    permanent = item;
+                    Console.WriteLine("Trying: " + item.SSID);
+                    WifiNetworkHelper.ScanAndConnectDhcp(item.SSID, item.Password, System.Device.Wifi.WifiReconnectionKind.Manual);
+                    while (WifiNetworkHelper.Status != NetworkHelperStatus.NetworkIsReady)
+                    {
+                        tries--;
+                        Console.WriteLine($"Network not ready, status: {Diagnostics.GetNetworkStatus(WifiNetworkHelper.Status)}");
+                        WifiNetworkHelper.ScanAndConnectDhcp(item.SSID, item.Password, System.Device.Wifi.WifiReconnectionKind.Manual);
+                        Thread.Sleep(1500);
+                        if (tries <= 0)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+            WifiNetworkHelper.ScanAndConnectDhcp(permanent.SSID, permanent.Password, System.Device.Wifi.WifiReconnectionKind.Automatic);
+            Console.WriteLine("WIFI Connected");
+            var networkInterface = NetworkInterface.GetAllNetworkInterfaces()[WifiNetworkHelper.WifiAdapter.NetworkInterface];
+            Console.WriteLine("IP: " + networkInterface.IPv4Address);
+            Console.WriteLine("DNS: " + networkInterface.IPv4DnsAddresses[0]);
+            Console.WriteLine("Gateway: " + networkInterface.IPv4GatewayAddress);
+            Console.WriteLine("Networking started!");
+            Console.WriteLine("Initializing SNTP...");
+            Sntp.Server1 = "tik.cesnet.cz";
+            Sntp.Server2 = "pool.ntp.org";
+            Sntp.Start();
+            Console.WriteLine("SNTP Initialized!");
+            Console.WriteLine("UTC NOW: " + DateTime.UtcNow.ToString());
+            while (DateTime.UtcNow.Year == 1970)
+            {
+                Console.WriteLine("Waiting for SNTP....");
+                Console.WriteLine("UTC NOW: " + DateTime.UtcNow.ToString());
+                Sntp.UpdateNow();
+                Thread.Sleep(1250);
+            }
+            Console.WriteLine("SNTP fully ready!");
+            App.MainWindow.Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
+            {
+                App.MainWindow = new ConnectingMoonraker(App);
+                Close();
+                return null;
+            }, null);
+        }
+        public override void RenderElements()
+        {
             StackPanel panel = new StackPanel();
             Child = panel;
 
-            Background = new nanoFramework.Presentation.Media.SolidColorBrush(System.Drawing.Color.Black);
-            Foreground = new nanoFramework.Presentation.Media.SolidColorBrush(System.Drawing.Color.White);
             StackPanel stackPanel = new StackPanel();
             stackPanel.SetMargin(0, 30, 0, 0);
             Child = stackPanel;
@@ -68,65 +124,26 @@ namespace OpenHalo.Windows
             connnectingText.SetMargin(0, 10, 0, 0);
             stackPanel.Children.Add(connnectingText);
 
-            Text wifiText = new Text(OpenHaloApplication.SmallFont, "");
+            wifiText = new Text(OpenHaloApplication.SmallFont, "");
             wifiText.VerticalAlignment = VerticalAlignment.Center;
             wifiText.HorizontalAlignment = HorizontalAlignment.Center;
             wifiText.ForeColor = System.Drawing.Color.White;
             stackPanel.Children.Add(wifiText);
 
-            Text atttemptText = new Text(OpenHaloApplication.SmallFont, "");
+            atttemptText = new Text(OpenHaloApplication.SmallFont, "");
             atttemptText.VerticalAlignment = VerticalAlignment.Center;
             atttemptText.HorizontalAlignment = HorizontalAlignment.Center;
             atttemptText.ForeColor = System.Drawing.Color.White;
             stackPanel.Children.Add(atttemptText);
-
-            Console.WriteLine("Wifi Connections init....");
-            Configs.Wifi pernament = null;
-            while (WifiNetworkHelper.Status != NetworkHelperStatus.NetworkIsReady)
+        }
+        protected override void OnButtonDown(ButtonEventArgs e)
+        {
+            App.MainWindow.Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
             {
-                foreach (var item in OpenHaloApplication.config.Wifis)
-                {
-                    int tries = 5;
-                    wifiText.Dispatcher.Invoke(TimeSpan.MaxValue, (args) => { wifiText.TextContent = item.SSID; atttemptText.TextContent = "Attempt: " + (tries - 5 + 1); return null; }, null);
-                    pernament = item;
-                    Console.WriteLine("Trying: " + item.SSID);
-                    WifiNetworkHelper.ScanAndConnectDhcp(item.SSID, item.Password, System.Device.Wifi.WifiReconnectionKind.Manual);
-                    while (WifiNetworkHelper.Status != NetworkHelperStatus.NetworkIsReady)
-                    {
-                        tries--;
-                        Console.WriteLine($"Network not ready, status: {Diagnostics.GetNetworkStatus(WifiNetworkHelper.Status)}");
-                        WifiNetworkHelper.ScanAndConnectDhcp(item.SSID, item.Password, System.Device.Wifi.WifiReconnectionKind.Manual);
-                        Thread.Sleep(1500);
-                        if (tries <= 0)
-                        {
-                            break;
-                        }
-                    }
-                }
-            }
-            WifiNetworkHelper.ScanAndConnectDhcp(pernament.SSID, pernament.Password, System.Device.Wifi.WifiReconnectionKind.Automatic);
-            Console.WriteLine("WIFI Connected");
-            var networkInterface = NetworkInterface.GetAllNetworkInterfaces()[WifiNetworkHelper.WifiAdapter.NetworkInterface];
-            Console.WriteLine("IP: " + networkInterface.IPv4Address);
-            Console.WriteLine("DNS: " + networkInterface.IPv4DnsAddresses[0]);
-            Console.WriteLine("Gateway: " + networkInterface.IPv4GatewayAddress);
-            Console.WriteLine("Networking started!");
-            Console.WriteLine("Initializing SNTP...");
-            Sntp.Server1 = "tik.cesnet.cz";
-            Sntp.Server2 = "pool.ntp.org";
-            Sntp.Start();
-            Console.WriteLine("SNTP Initialized!");
-            Console.WriteLine("UTC NOW: " + DateTime.UtcNow.ToString());
-            while (DateTime.UtcNow.Year == 1970)
-            {
-                Console.WriteLine("Waiting for SNTP....");
-                Console.WriteLine("UTC NOW: " + DateTime.UtcNow.ToString());
-                Sntp.UpdateNow();
-                Thread.Sleep(1250);
-            }
-            Console.WriteLine("SNTP fully ready!");
-            App.MainWindow = new ConnectingMoonraker(App);
-            Close();
+                App.MainWindow = new Setup(App); //Open Setup
+                Close();
+                return null;
+            }, null);
         }
     }
 }

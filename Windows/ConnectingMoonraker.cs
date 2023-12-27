@@ -12,24 +12,20 @@ using OpenHalo.Helpers;
 
 namespace OpenHalo.Windows
 {
-    public class ConnectingMoonraker : Window
+    public class ConnectingMoonraker : HaloWindow
     {
-        private OpenHaloApplication App
+        public ConnectingMoonraker(OpenHaloApplication application) : base(application)
         {
-            get; set;
         }
-        public ConnectingMoonraker(OpenHaloApplication application)
-        {
-            App = application;
-            Visibility = Visibility.Visible;
-            Width = DisplayControl.ScreenWidth;
-            Height = DisplayControl.ScreenHeight;
-            Buttons.Focus(this);
-            StackPanel panel = new StackPanel();
-            Child = panel;
 
-            Background = new nanoFramework.Presentation.Media.SolidColorBrush(System.Drawing.Color.Black);
-            Foreground = new nanoFramework.Presentation.Media.SolidColorBrush(System.Drawing.Color.White);
+        public override void OnLoaded()
+        {
+            var client = HttpHelpers.HttpClient();
+            var str = client.GetString($"http://{OpenHaloApplication.config.MoonrakerUri}/printer/objects/query?webhooks&virtual_sdcard&print_stats");
+            Console.WriteLine(str);
+        }
+        public override void RenderElements()
+        {
             StackPanel stackPanel = new StackPanel();
             stackPanel.SetMargin(0, 30, 0, 0);
             Child = stackPanel;
@@ -74,13 +70,15 @@ namespace OpenHalo.Windows
             wifiText.ForeColor = System.Drawing.Color.White;
             stackPanel.Children.Add(wifiText);
 
-            Thread th = new Thread(() =>
+        }
+        protected override void OnButtonDown(ButtonEventArgs e)
+        {
+            App.MainWindow.Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
             {
-                var client = HttpHelpers.HttpClient();
-                var str = client.GetString($"http://{OpenHaloApplication.config.MoonrakerUri}/printer/objects/query?webhooks&virtual_sdcard&print_stats");
-                Console.WriteLine(str);
-            });
-            th.Start();
+                App.MainWindow = new Setup(App); //Open Setup
+                Close();
+                return null;
+            }, null);
         }
     }
 }

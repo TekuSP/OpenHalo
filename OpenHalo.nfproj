@@ -19,6 +19,7 @@
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
     <Compile Include="Configs\MainConfig.cs" />
+    <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\HttpHelpers.cs" />
     <Compile Include="Helpers\Networking.cs" />
     <Compile Include="OpenHaloApplication.cs" />
@@ -31,6 +32,7 @@
     <Compile Include="Windows\ConnectingMoonraker.cs" />
     <Compile Include="Windows\ConnectingWIFI.cs" />
     <Compile Include="Windows\EnterSetup.cs" />
+    <Compile Include="Windows\HaloWindow.cs" />
     <Compile Include="Windows\MainPrinterPage.cs" />
     <Compile Include="Windows\Reboot.cs" />
     <Compile Include="Windows\Setup.cs" />

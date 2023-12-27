@@ -16,24 +16,16 @@ using OpenHalo.Helpers;
 
 namespace OpenHalo.Windows
 {
-    public class Setup : Window
+    public class Setup : HaloWindow
     {
         public const string SoftApIP = "192.168.4.1";
-        private OpenHaloApplication App
+        public Setup(OpenHaloApplication application) : base(application)
         {
-            get; set;
+
         }
-        public Setup(OpenHaloApplication application)
+
+        public override void OnLoaded()
         {
-            App = application;
-            Visibility = Visibility.Visible;
-            Width = DisplayControl.ScreenWidth;
-            Height = DisplayControl.ScreenHeight;
-            Buttons.Focus(this);
-
-            Background = new nanoFramework.Presentation.Media.SolidColorBrush(System.Drawing.Color.Black);
-            Foreground = new nanoFramework.Presentation.Media.SolidColorBrush(System.Drawing.Color.White);
-
             Console.WriteLine($"Starting SSID OpenHalo Setup on {SoftApIP}");
 
             if (!Networking.IsAPModeEnabled() || !Networking.IsModeValid())
@@ -46,7 +38,10 @@ namespace OpenHalo.Windows
             dhcpServer.CaptivePortalUrl = $"http://{SoftApIP}";
             dhcpServer.Start(IPAddress.Parse(SoftApIP), new IPAddress(new byte[] { 255, 255, 255, 0 }), 1200);
             Console.WriteLine("DHCP Server running!");
+        }
 
+        public override void RenderElements()
+        {
             StackPanel stackPanel = new StackPanel();
             stackPanel.SetMargin(0, 30, 0, 0);
             Child = stackPanel;

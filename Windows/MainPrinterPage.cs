@@ -7,19 +7,18 @@ using nanoFramework.UI;
 
 namespace OpenHalo.Windows
 {
-    public class MainPrinterPage : Window
+    public class MainPrinterPage : HaloWindow
     {
-        private OpenHaloApplication App
+        public MainPrinterPage(OpenHaloApplication application) : base (application)
         {
-            get; set;
+
         }
-        public MainPrinterPage(OpenHaloApplication application)
+
+        public override void OnLoaded()
         {
-            App = application;
-            Visibility = Visibility.Visible;
-            Width = DisplayControl.ScreenWidth;
-            Height = DisplayControl.ScreenHeight;
-            Buttons.Focus(this);
+        }
+        public override void RenderElements()
+        {
         }
     }
 }

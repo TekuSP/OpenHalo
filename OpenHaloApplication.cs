@@ -14,6 +14,7 @@ using OpenHalo.Windows;
 using OpenHalo.Resources;
 using nanoFramework.Networking;
 using System.Device.Pwm;
+using OpenHalo.Helpers;
 
 namespace OpenHalo
 {
@@ -23,6 +24,7 @@ namespace OpenHalo
         public static MainConfig config;
         public static Font NinaBFont;
         public static Font SmallFont;
+        public static readonly string ConfigLocation = "I:\\configuration.json";
         public static PwmChannel BackLightPWM
         {
             get; set;
@@ -70,17 +72,17 @@ namespace OpenHalo
             SmallFont = ResourceDictionary.GetFont(ResourceDictionary.FontResources.small);
             Console.WriteLine("Initializing backlight...");
             BackLightPWM = PwmChannel.CreateFromPin(backLightPin, 400);
-            SetBrigtness(0.5);
+            SetBrightness(0.5);
             Console.WriteLine($"Backlight initialized on pin: {backLightPin} !");
             Console.WriteLine("Initializing WPF framework...");
             OpenHaloApplication myApplication = new OpenHaloApplication();
             Console.WriteLine("Framework initialized!");
             Console.WriteLine("Loading config...");
             Console.WriteLine("Searching for configuration file...");
-            if (File.Exists("I:\\configuration.json"))
+            if (File.Exists(ConfigLocation))
             {
                 Console.WriteLine("Found configuration file, reading...");
-                var file = StorageFile.GetFileFromPath("I:\\configuration.json");
+                var file = StorageFile.GetFileFromPath(ConfigLocation);
                 var configString = FileIO.ReadText(file);
                 try
                 {
@@ -93,10 +95,10 @@ namespace OpenHalo
                     file.Delete();
                 }
             }
-            if (!File.Exists("I:\\configuration.json"))
+            if (!File.Exists(ConfigLocation) || Networking.IsAPModeEnabled())
             {
-                Console.WriteLine("No configuration loaded.");
-                Console.WriteLine("Loading first time setup window...");
+                Console.WriteLine("No configuration loaded or Setup requested.");
+                Console.WriteLine("Loading Setup window...");
                 mainWindow = new Setup(myApplication);
             }
             else
@@ -107,13 +109,13 @@ namespace OpenHalo
             }
 
             //DEBUG! TESTING ONLY!
-            mainWindow = new EnterSetup(myApplication);
+            config = new MainConfig() { MoonrakerApiKey = "5cd06d0b3afe4934b758d48599e0b6c6", MoonrakerUri = "192.168.100.249", Wifis = new Wifi[] 
             //REMOVE WHEN DONE
 
             Console.WriteLine("Rendering and launching app!");
-            myApplication.Run(mainWindow);
+            myApplication.Run();
         }
-        public static void SetBrigtness(double brigtness)
+        public static void SetBrightness(double brigtness)
         {
             BackLightPWM.DutyCycle = brigtness;
         }

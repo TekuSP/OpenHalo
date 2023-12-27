@@ -56,6 +56,7 @@ namespace OpenHalo.Helpers
         /// <param name="SoftApIP">Static IP Address</param>
         public static void EnableAPMode(Window instance, OpenHaloApplication app, string SoftApIP)
         {
+            Console.WriteLine("Enabling Wifi AP Mode...");
             NetworkInterface ni = GetInterface();
             WirelessAPConfiguration wirelessAPConfiguration = GetConfiguration();
             Wireless80211Configuration config = Get80211Configuration(); //Disable WIFI
@@ -73,8 +74,12 @@ namespace OpenHalo.Helpers
             wirelessAPConfiguration.SaveConfiguration();
             Console.WriteLine("Enabling AP Mode for 3 clients with SSID \"OpenHalo Setup\"...");
             Console.WriteLine("Reboot to save WIFI configuration....");
-            app.MainWindow = new Reboot(app);
-            instance.Close();
+            app.MainWindow.Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
+            {
+                app.MainWindow = new Reboot(app);
+                instance.Close();
+                return null;
+            }, null);
         }
         /// <summary>
         /// Enables Client Mode and reboots
@@ -83,6 +88,7 @@ namespace OpenHalo.Helpers
         /// <param name="app">APp to use for opening Reboot</param>
         public static void EnableClientMode(Window instance, OpenHaloApplication app)
         {
+            Console.WriteLine("Enabling Wifi Client Mode...");
             NetworkInterface ni = GetInterface();
             ni.EnableDhcp();
             Console.WriteLine("Enabled DHCP Client...");
@@ -95,8 +101,12 @@ namespace OpenHalo.Helpers
             config.SaveConfiguration();
             Console.WriteLine("Enable WIFI Client mode...");
             Console.WriteLine("Reboot to save WIFI configuration....");
-            app.MainWindow = new Reboot(app);
-            instance.Close();
+            app.MainWindow.Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
+            {
+                app.MainWindow = new Reboot(app);
+                instance.Close();
+                return null;
+            }, null);
         }
         /// <summary>
         /// Is AP Mode enabled?

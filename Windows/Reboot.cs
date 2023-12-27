@@ -11,24 +11,23 @@ using System.Threading;
 
 namespace OpenHalo.Windows
 {
-    public class Reboot : Window
+    public class Reboot : HaloWindow
     {
-        private OpenHaloApplication App
+        public Reboot(OpenHaloApplication application) : base(application)
         {
-            get; set;
         }
-        public Reboot(OpenHaloApplication application)
+
+        public override void OnLoaded()
         {
-            App = application;
-            Visibility = Visibility.Visible;
-            Width = DisplayControl.ScreenWidth;
-            Height = DisplayControl.ScreenHeight;
-            Buttons.Focus(this);
+            Thread.Sleep(5000);
+            OpenHaloApplication.SetBrightness(0); //Shutdown screen
+            nanoFramework.Runtime.Native.Power.RebootDevice();
+        }
+        public override void RenderElements()
+        {
             StackPanel panel = new StackPanel();
             Child = panel;
 
-            Background = new nanoFramework.Presentation.Media.SolidColorBrush(System.Drawing.Color.Black);
-            Foreground = new nanoFramework.Presentation.Media.SolidColorBrush(System.Drawing.Color.White);
             StackPanel stackPanel = new StackPanel();
             stackPanel.SetMargin(0, 30, 0, 0);
             Child = stackPanel;
@@ -53,13 +52,6 @@ namespace OpenHalo.Windows
             connnectingText.ForeColor = System.Drawing.Color.White;
             connnectingText.SetMargin(0, 10, 0, 0);
             stackPanel.Children.Add(connnectingText);
-
-            var reboot = new Thread(() =>
-            {
-                Thread.Sleep(2500);
-                nanoFramework.Runtime.Native.Power.RebootDevice();
-            });
-            reboot.Start();
         }
     }
 }
