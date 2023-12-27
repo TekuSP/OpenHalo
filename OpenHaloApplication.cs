@@ -78,24 +78,8 @@ namespace OpenHalo
             OpenHaloApplication myApplication = new OpenHaloApplication();
             Console.WriteLine("Framework initialized!");
             Console.WriteLine("Loading config...");
-            Console.WriteLine("Searching for configuration file...");
-            if (File.Exists(ConfigLocation))
-            {
-                Console.WriteLine("Found configuration file, reading...");
-                var file = StorageFile.GetFileFromPath(ConfigLocation);
-                var configString = FileIO.ReadText(file);
-                try
-                {
-                    config = (MainConfig)JsonConvert.DeserializeObject(configString, typeof(MainConfig));
-                    Console.WriteLine("Configuration file read succesfully.");
-                }
-                catch
-                {
-                    Console.WriteLine("Configuration file damaged. Recreating file.");
-                    file.Delete();
-                }
-            }
-            if (!File.Exists(ConfigLocation) || Networking.IsAPModeEnabled())
+            config = ConfigHelper.LoadConfig();
+            if (config == null || Networking.IsAPModeEnabled())
             {
                 Console.WriteLine("No configuration loaded or Setup requested.");
                 Console.WriteLine("Loading Setup window...");
