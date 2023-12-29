@@ -74,6 +74,16 @@ namespace OpenHalo
             BackLightPWM = PwmChannel.CreateFromPin(backLightPin, 400);
             SetBrightness(0.5);
             Console.WriteLine($"Backlight initialized on pin: {backLightPin} !");
+            Console.WriteLine("Initializing CST816D TouchScreen...");
+            TekuSP.Drivers.CST816D.CST816D cts = new TekuSP.Drivers.CST816D.CST816D(1, 41, 42);
+            GpioTouchInputProvider touchInput = new GpioTouchInputProvider(null);
+            touchInput.AddTouch(Button.VK_LEFT, cts, TekuSP.Drivers.CST816D.Gesture.GEST_MOVE_LEFT);
+            touchInput.AddTouch(Button.VK_RIGHT, cts, TekuSP.Drivers.CST816D.Gesture.GEST_MOVE_RIGHT);
+            touchInput.AddTouch(Button.VK_UP, cts, TekuSP.Drivers.CST816D.Gesture.GEST_MOVE_UP);
+            touchInput.AddTouch(Button.VK_SELECT, cts, TekuSP.Drivers.CST816D.Gesture.GEST_SINGLE_CLICK);
+            touchInput.AddTouch(Button.VK_DOWN, cts, TekuSP.Drivers.CST816D.Gesture.GEST_MOVE_DOWN);
+            cts.Start();
+            Console.WriteLine("CST816D initialized!");
             Console.WriteLine("Initializing WPF framework...");
             OpenHaloApplication myApplication = new OpenHaloApplication();
             Console.WriteLine("Framework initialized!");
