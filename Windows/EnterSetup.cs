@@ -88,14 +88,17 @@ namespace OpenHalo.Windows
 
         protected override void OnButtonDown(ButtonEventArgs e)
         {
-            timer?.Dispose();
-            timer = null;
-            App.MainWindow.Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
+            if (e.Button == Button.VK_SELECT)
             {
-                App.MainWindow = new Setup(App); //Open Setup
-                Close();
-                return null;
-            },null);
+                timer?.Dispose();
+                timer = null;
+                App.MainWindow.Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
+                {
+                    App.MainWindow = new Setup(App); //Open Setup
+                    Close();
+                    return null;
+                }, null);
+            }
         }
     }
 }

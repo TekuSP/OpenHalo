@@ -82,5 +82,18 @@ namespace OpenHalo.Windows
             urlText.SetMargin(5);
             stackPanel.Children.Add(urlText);
         }
+
+        private void Reboot()
+        {
+            Console.WriteLine("Requested reboot to normal operation mode...");
+            Networking.EnableClientMode(this, App); //Enables client mode and reboots
+        }
+        protected override void OnButtonDown(ButtonEventArgs e)
+        {
+            if (e.Button == Button.VK_BACK)
+            {
+                Reboot();
+            }
+        }
     }
 }

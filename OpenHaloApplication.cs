@@ -33,7 +33,7 @@ namespace OpenHalo
         public static void Main()
         {
 #if DEBUG
-            Thread.Sleep(15000);
+            //Thread.Sleep(15000);
 #endif
             int backLightPin = 8;
             int chipSelect = 10;
@@ -82,6 +82,7 @@ namespace OpenHalo
             touchInput.AddTouch(Button.VK_RIGHT, cts, TekuSP.Drivers.CST816D.Gesture.GEST_MOVE_RIGHT);
             touchInput.AddTouch(Button.VK_UP, cts, TekuSP.Drivers.CST816D.Gesture.GEST_MOVE_UP);
             touchInput.AddTouch(Button.VK_SELECT, cts, TekuSP.Drivers.CST816D.Gesture.GEST_SINGLE_CLICK);
+            touchInput.AddTouch(Button.VK_BACK, cts, TekuSP.Drivers.CST816D.Gesture.GEST_LONG_PRESS);
             touchInput.AddTouch(Button.VK_DOWN, cts, TekuSP.Drivers.CST816D.Gesture.GEST_MOVE_DOWN);
             cts.Start();
             Console.WriteLine("CST816D initialized!");
@@ -103,11 +104,7 @@ namespace OpenHalo
                 mainWindow = new EnterSetup(myApplication);
             }
 
-            //DEBUG! TESTING ONLY!
-            config = new MainConfig() { MoonrakerApiKey = "5cd06d0b3afe4934b758d48599e0b6c6", MoonrakerUri = "192.168.100.249", Wifis = new Wifi[] 
 
-            // mainWindow = new EnterSetup(myApplication);
-            //REMOVE WHEN DONE
             //WifiAdapter wifi = WifiAdapter.FindAllAdapters()[0];
             //wifi.AvailableNetworksChanged += WifiAdapter_AvailableNetworksChanged;
             //Thread th = new Thread(() =>
