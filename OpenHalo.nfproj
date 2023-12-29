@@ -19,7 +19,7 @@
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
     <Compile Include="Configs\MainConfig.cs" />
-    <Compile Include="GpioTouchInputProvider.cs" />
+    <Compile Include="TouchInputProvider.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\HttpHelpers.cs" />
     <Compile Include="Helpers\Networking.cs" />

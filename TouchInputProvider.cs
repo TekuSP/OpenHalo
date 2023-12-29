@@ -7,7 +7,7 @@ using nanoFramework.Presentation;
 
 namespace OpenHalo
 {
-    public sealed class GpioTouchInputProvider
+    public sealed class TouchInputProvider
     {
         public readonly Dispatcher Dispatcher;
 
@@ -21,7 +21,7 @@ namespace OpenHalo
         /// nanoFramework.Presentation.
         /// </summary>
         /// <param name="source"></param>
-        public GpioTouchInputProvider(PresentationSource source)
+        public TouchInputProvider(PresentationSource source)
         {
             // Set the input source.
             this.source = source;
@@ -63,7 +63,7 @@ namespace OpenHalo
         internal class TouchPad : IDisposable
         {
             private readonly Button button;
-            private readonly GpioTouchInputProvider sink;
+            private readonly TouchInputProvider sink;
             private readonly ButtonDevice buttonDevice = InputManager.CurrentInputManager.ButtonDevice;
             private readonly TekuSP.Drivers.CST816D.Gesture gest;
             /// <summary>
@@ -73,7 +73,7 @@ namespace OpenHalo
             /// <param name="sink"></param>
             /// <param name="button"></param>
             /// <param name="pin"></param>
-            public TouchPad(GpioTouchInputProvider sink, Button button, TekuSP.Drivers.DriverBase.Interfaces.ITouchSensor touch, TekuSP.Drivers.CST816D.Gesture gestureToReact = TekuSP.Drivers.CST816D.Gesture.GEST_NONE)
+            public TouchPad(TouchInputProvider sink, Button button, TekuSP.Drivers.DriverBase.Interfaces.ITouchSensor touch, TekuSP.Drivers.CST816D.Gesture gestureToReact = TekuSP.Drivers.CST816D.Gesture.GEST_NONE)
             {
                 this.sink = sink;
                 this.button = button;

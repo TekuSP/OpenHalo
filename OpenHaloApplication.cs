@@ -77,7 +77,7 @@ namespace OpenHalo
             Console.WriteLine($"Backlight initialized on pin: {backLightPin} !");
             Console.WriteLine("Initializing CST816D TouchScreen...");
             TekuSP.Drivers.CST816D.CST816D cts = new TekuSP.Drivers.CST816D.CST816D(1, 41, 42);
-            GpioTouchInputProvider touchInput = new GpioTouchInputProvider(null);
+            TouchInputProvider touchInput = new TouchInputProvider(null);
             touchInput.AddTouch(Button.VK_LEFT, cts, TekuSP.Drivers.CST816D.Gesture.GEST_MOVE_LEFT);
             touchInput.AddTouch(Button.VK_RIGHT, cts, TekuSP.Drivers.CST816D.Gesture.GEST_MOVE_RIGHT);
             touchInput.AddTouch(Button.VK_UP, cts, TekuSP.Drivers.CST816D.Gesture.GEST_MOVE_UP);
