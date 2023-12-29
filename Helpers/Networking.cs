@@ -60,7 +60,7 @@ namespace OpenHalo.Helpers
             NetworkInterface ni = GetInterface();
             WirelessAPConfiguration wirelessAPConfiguration = GetConfiguration();
             Wireless80211Configuration config = Get80211Configuration(); //Disable WIFI
-            config.Options = Wireless80211Configuration.ConfigurationOptions.None;
+            config.Options = Wireless80211Configuration.ConfigurationOptions.Enable;
             config.SaveConfiguration();
             Console.WriteLine("Disabled WIFI Client mode...");
 
@@ -119,7 +119,7 @@ namespace OpenHalo.Helpers
                 return false;
             if (GetConfiguration().Options != (WirelessAPConfiguration.ConfigurationOptions.Enable | WirelessAPConfiguration.ConfigurationOptions.AutoStart))
                 return false;
-            if (Get80211Configuration().Options != Wireless80211Configuration.ConfigurationOptions.None)
+            if (Get80211Configuration().Options != Wireless80211Configuration.ConfigurationOptions.Enable)
                 return false;
             return true;
         }

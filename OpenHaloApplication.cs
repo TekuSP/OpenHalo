@@ -15,6 +15,7 @@ using OpenHalo.Resources;
 using nanoFramework.Networking;
 using System.Device.Pwm;
 using OpenHalo.Helpers;
+using System.Device.Wifi;
 
 namespace OpenHalo
 {
@@ -104,14 +105,42 @@ namespace OpenHalo
 
             //DEBUG! TESTING ONLY!
             config = new MainConfig() { MoonrakerApiKey = "5cd06d0b3afe4934b758d48599e0b6c6", MoonrakerUri = "192.168.100.249", Wifis = new Wifi[] 
+
+            // mainWindow = new EnterSetup(myApplication);
             //REMOVE WHEN DONE
+            //WifiAdapter wifi = WifiAdapter.FindAllAdapters()[0];
+            //wifi.AvailableNetworksChanged += WifiAdapter_AvailableNetworksChanged;
+            //Thread th = new Thread(() =>
+            //{
+            //    while (true)
+            //    {
+            //        try
+            //        {
+            //            Console.WriteLine("Trying scan....");
+            //            wifi.ScanAsync();
+            //        }
+            //        catch (Exception)
+            //        {
+            //            Console.WriteLine("Exception scanning...");
+            //        }
+            //        finally { Thread.Sleep(10000); }
+            //    }
+
+            //});
+            //th.Start();
 
             Console.WriteLine("Rendering and launching app!");
             myApplication.Run();
         }
-        public static void SetBrightness(double brigtness)
+
+        //private static void WifiAdapter_AvailableNetworksChanged(WifiAdapter sender, object e)
+        //{
+        //    Console.WriteLine(JsonConvert.SerializeObject(sender.NetworkReport.AvailableNetworks));
+        //}
+
+        public static void SetBrightness(double brightness)
         {
-            BackLightPWM.DutyCycle = brigtness;
+            BackLightPWM.DutyCycle = brightness;
         }
     }
     public static class Diagnostics

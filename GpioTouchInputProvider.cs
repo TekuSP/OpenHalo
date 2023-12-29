@@ -17,7 +17,7 @@ namespace OpenHalo
         private PresentationSource source;
 
         /// <summary>
-        /// Maps GPIOs to Buttons that can be processed by 
+        /// Maps Touches to Buttons that can be processed by 
         /// nanoFramework.Presentation.
         /// </summary>
         /// <param name="source"></param>
@@ -46,14 +46,14 @@ namespace OpenHalo
         }
 
         /// <summary>
-        /// Add a GPIO pin as a specific Button
+        /// Add a Touch gesture as a specific Button
         /// </summary>
-        /// <param name="gpioPinNumber">GPIO pin number</param>
-        /// <param name="button">Button that this pin represents</param>
-        /// <param name="internalPullup">If true will enable the internal pull up on pin ( SetDriveMode = InputPullUp )
-        public void AddTouch(Button button, TekuSP.Drivers.CST816D.CST816D cts, TekuSP.Drivers.CST816D.Gesture gestureToReact)
+        /// <param name="touch">Touch driver</param>
+        /// <param name="button">Button that this gesture represents</param>
+        /// <param name="gestureToReact">Gesture from CST to use</param>
+        public void AddTouch(Button button, TekuSP.Drivers.DriverBase.Interfaces.ITouchSensor touch, TekuSP.Drivers.CST816D.Gesture gestureToReact)
         {
-            this.buttons.Add(new TouchPad(this, button, cts, gestureToReact));
+            this.buttons.Add(new TouchPad(this, button, touch, gestureToReact));
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace OpenHalo
             private readonly Button button;
             private readonly GpioTouchInputProvider sink;
             private readonly ButtonDevice buttonDevice = InputManager.CurrentInputManager.ButtonDevice;
-            TekuSP.Drivers.CST816D.Gesture gest;
+            private readonly TekuSP.Drivers.CST816D.Gesture gest;
             /// <summary>
             /// Constructs a ButtonPad object that handles the  
             /// hardware's button interrupts.
@@ -73,12 +73,12 @@ namespace OpenHalo
             /// <param name="sink"></param>
             /// <param name="button"></param>
             /// <param name="pin"></param>
-            public TouchPad(GpioTouchInputProvider sink, Button button, TekuSP.Drivers.CST816D.CST816D cts, TekuSP.Drivers.CST816D.Gesture gestureToReact = TekuSP.Drivers.CST816D.Gesture.GEST_NONE)
+            public TouchPad(GpioTouchInputProvider sink, Button button, TekuSP.Drivers.DriverBase.Interfaces.ITouchSensor touch, TekuSP.Drivers.CST816D.Gesture gestureToReact = TekuSP.Drivers.CST816D.Gesture.GEST_NONE)
             {
                 this.sink = sink;
                 this.button = button;
                 gest = gestureToReact;
-                cts.OnStateChanged += Cts_OnStateChanged;
+                touch.OnStateChanged += Cts_OnStateChanged;
             }
 
             private void Cts_OnStateChanged(object sender, TekuSP.Drivers.DriverBase.Interfaces.ITouchData data)
