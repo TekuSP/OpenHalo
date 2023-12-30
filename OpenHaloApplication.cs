@@ -33,7 +33,7 @@ namespace OpenHalo
         public static void Main()
         {
 #if DEBUG
-            //Thread.Sleep(15000);
+            Thread.Sleep(15000);
 #endif
             int backLightPin = 8;
             int chipSelect = 10;

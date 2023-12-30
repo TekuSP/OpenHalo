@@ -19,6 +19,7 @@
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
     <Compile Include="Configs\MainConfig.cs" />
+    <Compile Include="Moonraker\Query.cs" />
     <Compile Include="TouchInputProvider.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\HttpHelpers.cs" />
@@ -35,6 +36,12 @@
     <Compile Include="Windows\EnterSetup.cs" />
     <Compile Include="Windows\HaloWindow.cs" />
     <Compile Include="Windows\MainPrinterPage.cs" />
+    <Compile Include="Windows\PrintingStates\CancelledState.cs" />
+    <Compile Include="Windows\PrintingStates\CompleteState.cs" />
+    <Compile Include="Windows\PrintingStates\ErrorState.cs" />
+    <Compile Include="Windows\PrintingStates\PausedState.cs" />
+    <Compile Include="Windows\PrintingStates\PrintingState.cs" />
+    <Compile Include="Windows\PrintingStates\StandbyState.cs" />
     <Compile Include="Windows\Reboot.cs" />
     <Compile Include="Windows\Setup.cs" />
   </ItemGroup>

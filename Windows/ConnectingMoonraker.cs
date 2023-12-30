@@ -9,6 +9,10 @@ using OpenHalo.Resources;
 using System.Net.Http;
 using System.Threading;
 using OpenHalo.Helpers;
+using nanoFramework.Json;
+using OpenHalo.Moonraker;
+using TekuSP.Drivers.DriverBase.Interfaces;
+using OpenHalo.Windows.PrintingStates;
 
 namespace OpenHalo.Windows
 {
@@ -20,9 +24,69 @@ namespace OpenHalo.Windows
 
         public override void OnLoaded()
         {
-            var client = HttpHelpers.HttpClient();
-            var str = client.GetString($"http://{OpenHaloApplication.config.MoonrakerUri}/printer/objects/query?webhooks&virtual_sdcard&print_stats");
-            Console.WriteLine(str);
+            if (!Query.IsQueryRunning())
+                Query.StartQuery();
+            while (true)
+            {
+                if (Query.data != null)
+                {
+                    switch (Query.data.status.print_stats.state)
+                    {
+                        case "standby":
+                            Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
+                            {
+                                App.MainWindow = new StandbyState(App);
+                                Close();
+                                return null;
+                            }, null);
+                            break;
+                        case "printing":
+                            Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
+                            {
+                                App.MainWindow = new PrintingState(App);
+                                Close();
+                                return null;
+                            }, null);
+                            break;
+                        case "paused":
+                            Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
+                            {
+                                App.MainWindow = new PausedState(App);
+                                Close();
+                                return null;
+                            }, null);
+                            break;
+                        case "complete":
+                            Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
+                            {
+                                App.MainWindow = new CompleteState(App);
+                                Close();
+                                return null;
+                            }, null);
+                            break;
+                        case "cancelled":
+                            Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
+                            {
+                                App.MainWindow = new CancelledState(App);
+                                Close();
+                                return null;
+                            }, null);
+                            break;
+                        case "error":
+                            Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
+                            {
+                                App.MainWindow = new ErrorState(App);
+                                Close();
+                                return null;
+                            }, null);
+                            break;
+                        default:
+                            Console.WriteLine("Unknown Klipper state!");
+                            break;
+                    }
+                }
+                Thread.Sleep(500);
+            }
         }
         public override void RenderElements()
         {
