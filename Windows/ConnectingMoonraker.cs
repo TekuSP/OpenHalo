@@ -39,7 +39,7 @@ namespace OpenHalo.Windows
                                 Close();
                                 return null;
                             }, null);
-                            break;
+                            return;
                         case "printing":
                             Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
                             {
@@ -47,7 +47,7 @@ namespace OpenHalo.Windows
                                 Close();
                                 return null;
                             }, null);
-                            break;
+                            return;
                         case "paused":
                             Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
                             {
@@ -55,7 +55,7 @@ namespace OpenHalo.Windows
                                 Close();
                                 return null;
                             }, null);
-                            break;
+                            return;
                         case "complete":
                             Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
                             {
@@ -63,7 +63,7 @@ namespace OpenHalo.Windows
                                 Close();
                                 return null;
                             }, null);
-                            break;
+                            return;
                         case "cancelled":
                             Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
                             {
@@ -71,7 +71,7 @@ namespace OpenHalo.Windows
                                 Close();
                                 return null;
                             }, null);
-                            break;
+                            return;
                         case "error":
                             Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
                             {
@@ -79,10 +79,10 @@ namespace OpenHalo.Windows
                                 Close();
                                 return null;
                             }, null);
-                            break;
+                            return;
                         default:
                             Console.WriteLine("Unknown Klipper state!");
-                            break;
+                            return;
                     }
                 }
                 Thread.Sleep(500);

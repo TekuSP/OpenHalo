@@ -192,7 +192,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Icons\heatbed.jpg" />
     <Content Include="Resources\Icons\moonraker.jpg" />
+    <None Include="Resources\Icons\nozzle.jpg" />
     <Content Include="Resources\Icons\reboot.jpg" />
     <Content Include="Resources\Icons\wifi.jpg" />
     <Content Include="Resources\Icons\wifiConnect.jpg" />

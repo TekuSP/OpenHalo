@@ -10,6 +10,7 @@
     {
         private static bool isRunning = false;
         public static Result data = null;
+        public static event EventHandler dataChanged = delegate { };
         public Result result
         {
             get; set;
@@ -36,7 +37,7 @@
                 {
                     var str = client.GetString($"http://{OpenHaloApplication.config.MoonrakerUri}/printer/objects/query?extruder&heater_bed&print_stats&system_stats&display_status&webhooks&virtual_sdcard");
                     data = ((Query)JsonConvert.DeserializeObject(str, typeof(Query))).result;
-                    break;
+                    dataChanged?.Invoke(null, new EventArgs());
                 }
                 catch (Exception ex)
                 {

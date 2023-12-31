@@ -45,7 +45,9 @@ namespace OpenHalo.Resources
         {
             settings = -20938,
             wifiConnect = -18698,
+            heatbed = -3953,
             reboot = 9673,
+            nozzle = 11401,
             moonraker = 15675,
             wifi = 17980,
         }
