@@ -18,6 +18,8 @@ namespace OpenHalo.Windows.PrintingStates
         private Text hotendTarget;
         private Text heatbedTarget;
         private Text fileName;
+        private Text percentage;
+        private Text M117;
         public PrintingState(OpenHaloApplication app) : base(app)
         {
         }
@@ -29,7 +31,7 @@ namespace OpenHalo.Windows.PrintingStates
 
         private void Query_dataChanged(object sender, EventArgs e)
         {
-            if (hotend == null || heatbed == null || hotendTarget == null || heatbedTarget == null || fileName == null)
+            if (hotend == null || heatbed == null || hotendTarget == null || heatbedTarget == null || fileName == null || percentage == null || M117 == null)
             {
                 return;
             }
@@ -40,6 +42,8 @@ namespace OpenHalo.Windows.PrintingStates
                 hotendTarget.TextContent = ToStringFormatDouble(Query.data.status.extruder.target);
                 heatbedTarget.TextContent = ToStringFormatDouble(Query.data.status.heater_bed.target);
                 fileName.TextContent = Query.data.status.print_stats.filename;
+                percentage.TextContent = ToStringFormatDouble(Query.data.status.display_status.progress * 100) + " %";
+                M117.TextContent = string.IsNullOrEmpty(Query.data.status.display_status.message) ? "Printing" : "M117: " + Query.data.status.display_status.message;
                 return null;
             }, null);
         }
@@ -56,8 +60,20 @@ namespace OpenHalo.Windows.PrintingStates
             logoText.HorizontalAlignment = HorizontalAlignment.Center;
             logoText.ForeColor = System.Drawing.Color.White;
             logoText.Visibility = Visibility.Visible;
-            logoText.SetMargin(0, 0, 0, 10);
+            logoText.SetMargin(0, 0, 0, 0);
             stackPanel.Children.Add(logoText);
+
+            M117 = new Text(OpenHaloApplication.NinaBFont, "M117: " + Query.data.status.display_status.message);
+            M117.HorizontalAlignment = HorizontalAlignment.Center;
+            M117.VerticalAlignment = VerticalAlignment.Center;
+            M117.Visibility = Visibility.Visible;
+            M117.SetMargin(25, 0, 25, 0);
+            M117.ForeColor = System.Drawing.Color.Gray;
+            M117.TextWrap = true;
+            M117.TextAlignment = nanoFramework.Presentation.Media.TextAlignment.Center;
+            if (string.IsNullOrEmpty(Query.data.status.display_status.message))
+                M117.TextContent = "Printing";
+            stackPanel.Children.Add(M117);
 
             StackPanel temps = new StackPanel(Orientation.Horizontal);
             temps.Visibility = Visibility.Visible;
@@ -122,11 +138,20 @@ namespace OpenHalo.Windows.PrintingStates
             fileName.HorizontalAlignment = HorizontalAlignment.Center;
             fileName.VerticalAlignment = VerticalAlignment.Center;
             fileName.Visibility = Visibility.Visible;
-            fileName.SetMargin(25,10,25,10);
+            fileName.SetMargin(25, 10, 25, 10);
             fileName.ForeColor = System.Drawing.Color.LightGray;
             fileName.TextWrap = true;
             fileName.TextAlignment = nanoFramework.Presentation.Media.TextAlignment.Center;
             stackPanel.Children.Add(fileName);
+
+            percentage = new Text(OpenHaloApplication.NinaBFont, ToStringFormatDouble(Query.data.status.display_status.progress * 100) + " %");
+            percentage.HorizontalAlignment = HorizontalAlignment.Center;
+            percentage.VerticalAlignment = VerticalAlignment.Center;
+            percentage.Visibility = Visibility.Visible;
+            percentage.ForeColor = System.Drawing.Color.WhiteSmoke;
+            percentage.TextAlignment = nanoFramework.Presentation.Media.TextAlignment.Center;
+            stackPanel.Children.Add(percentage);
+
         }
 
         public string ToStringFormatDouble(double value)

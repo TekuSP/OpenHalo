@@ -278,7 +278,7 @@
             get; set;
         }
 
-        public object message
+        public string message
         {
             get; set;
         }
