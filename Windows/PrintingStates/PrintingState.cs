@@ -49,6 +49,8 @@ namespace OpenHalo.Windows.PrintingStates
                 M117.TextContent = string.IsNullOrEmpty(Query.data.status.display_status.message) ? "Printing" : "M117: " + Query.data.status.display_status.message;
                 int progressSize = 240 - (int)Math.Round(Query.data.status.display_status.progress * 10);
                 int marginSize = (240 - progressSize) / 2;
+                if (progressSize % 2 != 0)
+                    progressSize += 1;
                 backgroundEllipse.Width = progressSize;
                 backgroundEllipse.Height = progressSize;
                 backgroundEllipse.SetMargin(marginSize);
@@ -165,6 +167,8 @@ namespace OpenHalo.Windows.PrintingStates
 
             int progressSize = 240 - (int)Math.Round(Query.data.status.display_status.progress * 10);
             int marginSize = (240 - progressSize) / 2;
+            if (progressSize % 2 != 0)
+                progressSize += 1;
 
             Ellipse ellipse = new Ellipse(240, 240);
             ellipse.Fill = new SolidColorBrush(System.Drawing.Color.Green);
