@@ -136,6 +136,21 @@
   <data name="reboot" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Icons\Reboot.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="SegoeUI12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Fonts\SegoeUI12.tinyfnt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SegoeUI14" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Fonts\SegoeUI14.tinyfnt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SegoeUI16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Fonts\SegoeUI16.tinyfnt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SegoeUI18" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Fonts\SegoeUI18.tinyfnt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SegoeUI24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Fonts\SegoeUI24.tinyfnt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Icons\settings.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

@@ -37,8 +37,13 @@ namespace OpenHalo.Resources
         internal enum FontResources : short
         {
             courierregular10 = -25095,
+            SegoeUI24 = -22635,
             small = 13070,
             NinaB = 18060,
+            SegoeUI18 = 29106,
+            SegoeUI12 = 29128,
+            SegoeUI16 = 29132,
+            SegoeUI14 = 29134,
         }
         [System.SerializableAttribute()]
         internal enum BitmapResources : short

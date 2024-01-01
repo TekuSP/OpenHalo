@@ -25,6 +25,12 @@ namespace OpenHalo
         public static MainConfig config;
         public static Font NinaBFont;
         public static Font SmallFont;
+        public static Font Courrier10;
+        public static Font SegoeUI12;
+        public static Font SegoeUI14;
+        public static Font SegoeUI16;
+        public static Font SegoeUI18;
+        public static Font SegoeUI24;
         public static readonly string ConfigLocation = "I:\\configuration.json";
         public static PwmChannel BackLightPWM
         {
@@ -71,6 +77,19 @@ namespace OpenHalo
             NinaBFont = ResourceDictionary.GetFont(ResourceDictionary.FontResources.NinaB);
             Console.WriteLine("Loading small....");
             SmallFont = ResourceDictionary.GetFont(ResourceDictionary.FontResources.small);
+            Console.WriteLine("Loading Courier Regular 10");
+            Courrier10 = ResourceDictionary.GetFont(ResourceDictionary.FontResources.courierregular10);
+            Console.WriteLine("Loading Segoe UI 12");
+            SegoeUI12 = ResourceDictionary.GetFont(ResourceDictionary.FontResources.SegoeUI12);
+            Console.WriteLine("Loading Segoe UI 14");
+            SegoeUI14 = ResourceDictionary.GetFont(ResourceDictionary.FontResources.SegoeUI14);
+            Console.WriteLine("Loading Segoe UI 16");
+            SegoeUI16 = ResourceDictionary.GetFont(ResourceDictionary.FontResources.SegoeUI16);
+            Console.WriteLine("Loading Segoe UI 18");
+            SegoeUI18 = ResourceDictionary.GetFont(ResourceDictionary.FontResources.SegoeUI18);
+            Console.WriteLine("Loading Segoe UI 24");
+            SegoeUI24 = ResourceDictionary.GetFont(ResourceDictionary.FontResources.SegoeUI24);
+            Console.WriteLine("Fonts initialized!");
             Console.WriteLine("Initializing backlight...");
             BackLightPWM = PwmChannel.CreateFromPin(backLightPin, 400);
             SetBrightness(0.5);

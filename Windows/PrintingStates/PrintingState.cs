@@ -5,6 +5,8 @@ using System.Threading;
 
 using nanoFramework.Presentation;
 using nanoFramework.Presentation.Controls;
+using nanoFramework.Presentation.Media;
+using nanoFramework.Presentation.Shapes;
 
 using OpenHalo.Moonraker;
 using OpenHalo.Resources;
@@ -20,6 +22,7 @@ namespace OpenHalo.Windows.PrintingStates
         private Text fileName;
         private Text percentage;
         private Text M117;
+        private Ellipse backgroundEllipse;
         public PrintingState(OpenHaloApplication app) : base(app)
         {
         }
@@ -31,7 +34,7 @@ namespace OpenHalo.Windows.PrintingStates
 
         private void Query_dataChanged(object sender, EventArgs e)
         {
-            if (hotend == null || heatbed == null || hotendTarget == null || heatbedTarget == null || fileName == null || percentage == null || M117 == null)
+            if (hotend == null || heatbed == null || hotendTarget == null || heatbedTarget == null || fileName == null || percentage == null || M117 == null || backgroundEllipse == null)
             {
                 return;
             }
@@ -44,15 +47,23 @@ namespace OpenHalo.Windows.PrintingStates
                 fileName.TextContent = Query.data.status.print_stats.filename;
                 percentage.TextContent = ToStringFormatDouble(Query.data.status.display_status.progress * 100) + " %";
                 M117.TextContent = string.IsNullOrEmpty(Query.data.status.display_status.message) ? "Printing" : "M117: " + Query.data.status.display_status.message;
+                int progressSize = 240 - (int)Math.Round(Query.data.status.display_status.progress * 10);
+                int marginSize = (240 - progressSize) / 2;
+                backgroundEllipse.Width = progressSize;
+                backgroundEllipse.Height = progressSize;
+                backgroundEllipse.SetMargin(marginSize);
                 return null;
             }, null);
         }
 
         public override void RenderElements()
         {
+            Panel mainPanel = new Panel();
+            mainPanel.Visibility = Visibility.Visible;
+
             StackPanel stackPanel = new StackPanel();
             stackPanel.SetMargin(0, 30, 0, 0);
-            Child = stackPanel;
+            Child = mainPanel;
             stackPanel.Visibility = Visibility.Visible;
 
             Text logoText = new Text(OpenHaloApplication.NinaBFont, "OpenHalo");
@@ -80,7 +91,8 @@ namespace OpenHalo.Windows.PrintingStates
 
             StackPanel hotendPanel = new StackPanel(Orientation.Vertical);
             hotendPanel.Visibility = Visibility.Visible;
-            hotendPanel.SetMargin(40, 10, 0, 0);
+            hotendPanel.SetMargin(10, 0, 0, 0);
+            hotendPanel.Width = 110;
 
             Image hotendImage = new Image(Resources.ResourceDictionary.GetBitmap(ResourceDictionary.BitmapResources.nozzle));
             hotendImage.HorizontalAlignment = HorizontalAlignment.Center;
@@ -89,36 +101,33 @@ namespace OpenHalo.Windows.PrintingStates
 
             hotendPanel.Children.Add(hotendImage);
 
-            hotend = new Text(OpenHaloApplication.NinaBFont, ToStringFormatDouble(Query.data.status.extruder.temperature));
-            heatbed = new Text(OpenHaloApplication.NinaBFont, ToStringFormatDouble(Query.data.status.heater_bed.temperature));
+            hotend = new Text(OpenHaloApplication.SegoeUI24, ToStringFormatDouble(Query.data.status.extruder.temperature));
+            heatbed = new Text(OpenHaloApplication.SegoeUI24, ToStringFormatDouble(Query.data.status.heater_bed.temperature));
             hotend.VerticalAlignment = VerticalAlignment.Center;
-            hotend.HorizontalAlignment = HorizontalAlignment.Left;
+            hotend.HorizontalAlignment = HorizontalAlignment.Center;
             hotend.ForeColor = System.Drawing.Color.White;
-            hotend.SetMargin(7, 0, 0, 0);
 
-            hotendTarget = new Text(OpenHaloApplication.NinaBFont, ToStringFormatDouble(Query.data.status.extruder.target));
-            heatbedTarget = new Text(OpenHaloApplication.NinaBFont, ToStringFormatDouble(Query.data.status.heater_bed.target));
+            hotendTarget = new Text(OpenHaloApplication.SegoeUI14, ToStringFormatDouble(Query.data.status.extruder.target));
+            heatbedTarget = new Text(OpenHaloApplication.SegoeUI14, ToStringFormatDouble(Query.data.status.heater_bed.target));
             hotendTarget.VerticalAlignment = VerticalAlignment.Center;
-            hotendTarget.HorizontalAlignment = HorizontalAlignment.Left;
+            hotendTarget.HorizontalAlignment = HorizontalAlignment.Center;
             hotendTarget.ForeColor = System.Drawing.Color.Red;
-            hotendTarget.SetMargin(7, 0, 0, 0);
 
             heatbedTarget.VerticalAlignment = VerticalAlignment.Center;
-            heatbedTarget.HorizontalAlignment = HorizontalAlignment.Left;
+            heatbedTarget.HorizontalAlignment = HorizontalAlignment.Center;
             heatbedTarget.ForeColor = System.Drawing.Color.Red;
-            heatbedTarget.SetMargin(7, 0, 0, 0);
 
             hotendPanel.Children.Add(hotend);
             hotendPanel.Children.Add(hotendTarget);
 
             heatbed.VerticalAlignment = VerticalAlignment.Center;
-            heatbed.HorizontalAlignment = HorizontalAlignment.Left;
+            heatbed.HorizontalAlignment = HorizontalAlignment.Center;
             heatbed.ForeColor = System.Drawing.Color.White;
-            heatbed.SetMargin(7, 0, 0, 0);
 
             StackPanel heatbedPanel = new StackPanel(Orientation.Vertical);
             heatbedPanel.Visibility = Visibility.Visible;
-            heatbedPanel.SetMargin(45, 10, 0, 0);
+            heatbedPanel.Width = 110;
+            heatbedPanel.SetMargin(0, 0, 10, 0);            
 
             Image heatbedImage = new Image(Resources.ResourceDictionary.GetBitmap(ResourceDictionary.BitmapResources.heatbed));
             heatbedImage.HorizontalAlignment = HorizontalAlignment.Center;
@@ -138,13 +147,13 @@ namespace OpenHalo.Windows.PrintingStates
             fileName.HorizontalAlignment = HorizontalAlignment.Center;
             fileName.VerticalAlignment = VerticalAlignment.Center;
             fileName.Visibility = Visibility.Visible;
-            fileName.SetMargin(25, 10, 25, 10);
+            fileName.SetMargin(25, 0, 25, 0);
             fileName.ForeColor = System.Drawing.Color.LightGray;
             fileName.TextWrap = true;
             fileName.TextAlignment = nanoFramework.Presentation.Media.TextAlignment.Center;
             stackPanel.Children.Add(fileName);
 
-            percentage = new Text(OpenHaloApplication.NinaBFont, ToStringFormatDouble(Query.data.status.display_status.progress * 100) + " %");
+            percentage = new Text(OpenHaloApplication.SegoeUI24, ToStringFormatDouble(Query.data.status.display_status.progress * 100) + " %");
             percentage.HorizontalAlignment = HorizontalAlignment.Center;
             percentage.VerticalAlignment = VerticalAlignment.Center;
             percentage.Visibility = Visibility.Visible;
@@ -152,6 +161,26 @@ namespace OpenHalo.Windows.PrintingStates
             percentage.TextAlignment = nanoFramework.Presentation.Media.TextAlignment.Center;
             stackPanel.Children.Add(percentage);
 
+            //ProgressBar
+
+            int progressSize = 240 - (int)Math.Round(Query.data.status.display_status.progress * 10);
+            int marginSize = (240 - progressSize) / 2;
+
+            Ellipse ellipse = new Ellipse(240, 240);
+            ellipse.Fill = new SolidColorBrush(System.Drawing.Color.Green);
+            ellipse.Visibility = Visibility.Visible;
+            ellipse.Stroke = new Pen(System.Drawing.Color.Green);
+
+            backgroundEllipse = new Ellipse(progressSize, progressSize);
+            backgroundEllipse.Fill = new SolidColorBrush(System.Drawing.Color.Black);
+            backgroundEllipse.Visibility = Visibility.Visible;
+            backgroundEllipse.Stroke = new Pen(System.Drawing.Color.Black);
+
+            backgroundEllipse.SetMargin(marginSize);
+
+            mainPanel.Children.Add(ellipse);
+            mainPanel.Children.Add(backgroundEllipse);
+            mainPanel.Children.Add(stackPanel);
         }
 
         public string ToStringFormatDouble(double value)
