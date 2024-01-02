@@ -19,4 +19,4 @@
 - Flash current deployment code (What you get from build in `bin\Debug\`) using `nanoff --target ESP32_S3_BLE --serialport COM7 --deploy --image .\OpenHalo.bin`
 - Run Visual Studio or Visual Studio Code with Extension and upload source code to deployment area.
 - WARNING: There is 15 sec delay at startup which is for debugger, so it has time to attach. If you want quick starts, you can remove it.
-- WARNING: Currently it cannot be setup via Web Portal, as HTML files are not finished. You can run 
+- WARNING: Currently it cannot be setup via Web Portal, as HTML files are not finished. You can run `            ConfigHelper.SaveConfig(new MainConfig() { MoonrakerApiKey = "", MoonrakerUri = "", Wifis = new Wifi[] { new Wifi() { Hidden = true, Password = , SSID =} } });` on line 112 with your values once, then remove it and it should always read your config. To escape from Web Portal Setup with QR Code, Long touch the touchscreen
