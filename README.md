@@ -12,7 +12,7 @@
  ![image](https://github.com/TekuSP/OpenHalo/assets/13198444/48b68e8d-33e9-4129-ad90-e2350c2a8049)
  ![image](https://github.com/TekuSP/OpenHalo/assets/13198444/6eb68406-c70a-4abb-bd43-35565a1cc5c2)
 ---
-#Collaborating
+# Collaborating
 - Project runs on nanoframework, get it here: https://docs.nanoframework.net/content/getting-started-guides/getting-started-managed.html
 - Download latest release of firmware from here: https://github.com/TekuSP/nf-interpreter/releases/tag/halo_graphics_v1
 - Flash the firmware using `nanoff --clrfile nanoCLR.bin --serialport COM7 --update --masserase`
