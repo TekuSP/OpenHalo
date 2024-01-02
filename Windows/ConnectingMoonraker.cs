@@ -13,6 +13,7 @@ using nanoFramework.Json;
 using OpenHalo.Moonraker;
 using TekuSP.Drivers.DriverBase.Interfaces;
 using OpenHalo.Windows.PrintingStates;
+using OpenHalo.Windows.PrintingStates.Virtual;
 
 namespace OpenHalo.Windows
 {
@@ -59,7 +60,10 @@ namespace OpenHalo.Windows
                         case "complete":
                             Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
                             {
-                                App.MainWindow = new CompleteState(App);
+                                if (Query.data.status.heater_bed.temperature >= 30)
+                                    App.MainWindow = new CoolingDown(App);
+                                else
+                                    App.MainWindow = new CompleteState(App);
                                 Close();
                                 return null;
                             }, null);

@@ -3,6 +3,10 @@
 using nanoFramework.Presentation;
 using nanoFramework.UI.Input;
 using nanoFramework.UI;
+using OpenHalo.Moonraker;
+using OpenHalo.Windows.PrintingStates.Virtual;
+using OpenHalo.Windows.PrintingStates;
+using System;
 
 namespace OpenHalo.Windows
 {
@@ -22,7 +26,7 @@ namespace OpenHalo.Windows
         /// Constructor to construct a Window
         /// </summary>
         /// <param name="app">Requires App main class</param>
-        public HaloWindow(OpenHaloApplication app)
+        protected HaloWindow(OpenHaloApplication app)
         {
             App = app;
 

@@ -10,6 +10,7 @@ using nanoFramework.Presentation.Shapes;
 
 using OpenHalo.Moonraker;
 using OpenHalo.Resources;
+using OpenHalo.Windows.PrintingStates.Virtual;
 
 namespace OpenHalo.Windows.PrintingStates
 {
@@ -23,17 +24,90 @@ namespace OpenHalo.Windows.PrintingStates
         private Text percentage;
         private Text M117;
         private Ellipse backgroundEllipse;
+        private string currentState = "";
         public PrintingState(OpenHaloApplication app) : base(app)
         {
         }
 
         public override void OnLoaded()
         {
+            currentState = Query.data.status.print_stats.state;
             Query.dataChanged += Query_dataChanged;
         }
 
         private void Query_dataChanged(object sender, EventArgs e)
         {
+            if (currentState != Query.data.status.print_stats.state)
+            {
+                Query.dataChanged -= Query_dataChanged;
+                //Change of state!
+                if (Query.data != null)
+                {
+                    switch (Query.data.status.print_stats.state)
+                    {
+                        case "standby":
+                            Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
+                            {
+                                App.MainWindow = new StandbyState(App);
+                                Close();
+                                return null;
+                            }, null);
+                            return;
+                        case "printing":
+                            currentState = Query.data.status.print_stats.state;
+                            Query.dataChanged += Query_dataChanged; //Reregister
+                            break;
+                        case "paused":
+                            Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
+                            {
+                                App.MainWindow = new PausedState(App);
+                                Close();
+                                return null;
+                            }, null);
+                            return;
+                        case "complete":
+                            Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
+                            {
+                                if (Query.data.status.heater_bed.temperature > 30)
+                                    App.MainWindow = new CoolingDown(App);
+                                else
+                                    App.MainWindow = new CompleteState(App);
+                                Close();
+                                return null;
+                            }, null);
+                            return;
+                        case "cancelled":
+                            Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
+                            {
+                                App.MainWindow = new CancelledState(App);
+                                Close();
+                                return null;
+                            }, null);
+                            return;
+                        case "error":
+                            Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
+                            {
+                                App.MainWindow = new ErrorState(App);
+                                Close();
+                                return null;
+                            }, null);
+                            return;
+                        default:
+                            Console.WriteLine("Unknown Klipper state!");
+                            return;
+                    }
+                }
+                else
+                {
+                    Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
+                    {
+                        App.MainWindow = new ConnectingMoonraker(App);
+                        Close();
+                        return null;
+                    }, null);
+                    return;
+                }
+            }
             if (hotend == null || heatbed == null || hotendTarget == null || heatbedTarget == null || fileName == null || percentage == null || M117 == null || backgroundEllipse == null)
             {
                 return;
@@ -129,7 +203,7 @@ namespace OpenHalo.Windows.PrintingStates
             StackPanel heatbedPanel = new StackPanel(Orientation.Vertical);
             heatbedPanel.Visibility = Visibility.Visible;
             heatbedPanel.Width = 110;
-            heatbedPanel.SetMargin(0, 0, 10, 0);            
+            heatbedPanel.SetMargin(0, 0, 10, 0);
 
             Image heatbedImage = new Image(Resources.ResourceDictionary.GetBitmap(ResourceDictionary.BitmapResources.heatbed));
             heatbedImage.HorizontalAlignment = HorizontalAlignment.Center;
@@ -187,7 +261,7 @@ namespace OpenHalo.Windows.PrintingStates
             mainPanel.Children.Add(stackPanel);
         }
 
-        public string ToStringFormatDouble(double value)
+        public static string ToStringFormatDouble(double value)
         {
             var result = "";
             var str = value.ToString();

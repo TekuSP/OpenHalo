@@ -42,6 +42,7 @@
     <Compile Include="Windows\PrintingStates\PausedState.cs" />
     <Compile Include="Windows\PrintingStates\PrintingState.cs" />
     <Compile Include="Windows\PrintingStates\StandbyState.cs" />
+    <Compile Include="Windows\PrintingStates\Virtual\CoolingDown.cs" />
     <Compile Include="Windows\Reboot.cs" />
     <Compile Include="Windows\Setup.cs" />
   </ItemGroup>
