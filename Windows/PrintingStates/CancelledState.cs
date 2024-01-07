@@ -133,14 +133,6 @@ namespace OpenHalo.Windows.PrintingStates
 
             stackPanel.Children.Add(printFinished);
 
-            Text percentage = new Text(OpenHaloApplication.SegoeUI24, PrintingState.ToStringFormatDouble(Query.data.status.display_status.progress * 100) + " %");
-            percentage.HorizontalAlignment = HorizontalAlignment.Center;
-            percentage.VerticalAlignment = VerticalAlignment.Center;
-            percentage.Visibility = Visibility.Visible;
-            percentage.ForeColor = System.Drawing.Color.WhiteSmoke;
-            percentage.TextAlignment = nanoFramework.Presentation.Media.TextAlignment.Center;
-            stackPanel.Children.Add(percentage);
-
             int progressSize = 230;
             int marginSize = (240 - progressSize) / 2;
 
