@@ -48,6 +48,7 @@ namespace OpenHalo.Resources
         [System.SerializableAttribute()]
         internal enum BitmapResources : short
         {
+            check = -21084,
             settings = -20938,
             wifiConnect = -18698,
             heatbed = -3953,
