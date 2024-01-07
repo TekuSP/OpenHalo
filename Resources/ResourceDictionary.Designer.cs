@@ -51,11 +51,15 @@ namespace OpenHalo.Resources
             check = -21084,
             settings = -20938,
             wifiConnect = -18698,
+            ready = -16010,
+            stop = -13603,
+            alert = -10465,
             heatbed = -3953,
             reboot = 9673,
             nozzle = 11401,
             moonraker = 15675,
             wifi = 17980,
+            pause = 31669,
         }
     }
 }
