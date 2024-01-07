@@ -23,28 +23,12 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: main
-      - name: Checkout tools repo
-        uses: actions/checkout@v2
-        with:
-          repository: nanoframework/nf-tools
-          path: tools
       - name: Install NuGet client
         uses: nuget/setup-nuget@v1
         with:
           nuget-version: '5.x'
-      - name: Update dependencies
-        run: ./github-actions/update-nf-dependencies.ps1 prerelease
-        working-directory: tools
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
-        if: env.CREATE_PR == 'true'
+      - uses: nanoframework/nanodu@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         with:
-          title: '${{ env.PR_TITLE }}'
-          body: |
-            :warning: Automated dependency update. :warning:
-            ${{ env.PR_MESSAGE }}
-          committer: 'dependabot <noreply@github.com>'
-          branch: ${{ env.BRANCH_NAME }}
-          path: main
-          labels: |
-            Type: dependencies
+          previewPackages: false
