@@ -91,6 +91,6 @@ jobs:
         uses: actions/upload-artifact@v4.0.0
         with:
           name: Build binaries
-          path: release/*.bin
+          path: bin/release/*.bin
           retention-days: 90                
             
