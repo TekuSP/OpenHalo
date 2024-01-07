@@ -93,7 +93,7 @@ namespace OpenHalo.Windows.PrintingStates
                     return;
                 }
             }
-            if (Query.data.status.heater_bed.temperature > 31)
+            if (Query.data.status.heater_bed.temperature > 31 && Query.data.status.heater_bed.power == 0)
             {
                 Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
                 {
@@ -121,7 +121,7 @@ namespace OpenHalo.Windows.PrintingStates
             logoText.SetMargin(0, 0, 0, 0);
             stackPanel.Children.Add(logoText);
 
-            Text M117 = new Text(OpenHaloApplication.NinaBFont, "Cooling down");
+            Text M117 = new Text(OpenHaloApplication.NinaBFont, "Print Complete");
             M117.HorizontalAlignment = HorizontalAlignment.Center;
             M117.VerticalAlignment = VerticalAlignment.Center;
             M117.Visibility = Visibility.Visible;

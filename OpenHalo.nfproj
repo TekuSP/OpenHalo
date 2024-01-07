@@ -199,10 +199,14 @@
     <None Include="Resources\Fonts\SegoeUI18.tinyfnt" />
     <None Include="Resources\Fonts\SegoeUI24.tinyfnt" />
     <None Include="Resources\Icons\heatbed.jpg" />
+    <Content Include="Resources\Icons\alert.jpg" />
     <Content Include="Resources\Icons\check.jpg" />
     <Content Include="Resources\Icons\moonraker.jpg" />
     <None Include="Resources\Icons\nozzle.jpg" />
+    <Content Include="Resources\Icons\pause.jpg" />
+    <Content Include="Resources\Icons\ready.jpg" />
     <Content Include="Resources\Icons\reboot.jpg" />
+    <Content Include="Resources\Icons\stop.jpg" />
     <Content Include="Resources\Icons\wifi.jpg" />
     <Content Include="Resources\Icons\wifiConnect.jpg" />
     <None Include="packages.config" />

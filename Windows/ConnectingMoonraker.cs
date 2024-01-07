@@ -60,7 +60,7 @@ namespace OpenHalo.Windows
                         case "complete":
                             Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
                             {
-                                if (Query.data.status.heater_bed.temperature >= 30)
+                                if (Query.data.status.heater_bed.temperature >= 30 && Query.data.status.heater_bed.power == 0)
                                     App.MainWindow = new CoolingDown(App);
                                 else
                                     App.MainWindow = new CompleteState(App);
