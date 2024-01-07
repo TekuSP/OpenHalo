@@ -13,7 +13,6 @@ namespace OpenHalo.Windows.PrintingStates.Virtual
     public class CoolingDown : HaloWindow
     {
         private Text heatbed;
-        private Text heatbedTarget;
         private string currentState = "";
         public CoolingDown(OpenHaloApplication app) : base(app)
         {
@@ -108,7 +107,6 @@ namespace OpenHalo.Windows.PrintingStates.Virtual
             Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
             {
                 heatbed.TextContent = PrintingState.ToStringFormatDouble(Query.data.status.heater_bed.temperature);
-                heatbedTarget.TextContent = PrintingState.ToStringFormatDouble(Query.data.status.heater_bed.target);
                 return null;
             }, null);
         }
@@ -140,15 +138,9 @@ namespace OpenHalo.Windows.PrintingStates.Virtual
             stackPanel.Children.Add(M117);
 
             heatbed = new Text(OpenHaloApplication.SegoeUI24, PrintingState.ToStringFormatDouble(Query.data.status.heater_bed.temperature));
-            heatbedTarget = new Text(OpenHaloApplication.SegoeUI14, PrintingState.ToStringFormatDouble(Query.data.status.heater_bed.target));
-
-            heatbedTarget.VerticalAlignment = VerticalAlignment.Center;
-            heatbedTarget.HorizontalAlignment = HorizontalAlignment.Center;
-            heatbedTarget.ForeColor = System.Drawing.Color.Blue;
-
             heatbed.VerticalAlignment = VerticalAlignment.Center;
             heatbed.HorizontalAlignment = HorizontalAlignment.Center;
-            heatbed.ForeColor = System.Drawing.Color.White;
+            heatbed.ForeColor = System.Drawing.Color.Blue;
 
             StackPanel heatbedPanel = new StackPanel(Orientation.Vertical);
             heatbedPanel.Visibility = Visibility.Visible;
@@ -164,11 +156,10 @@ namespace OpenHalo.Windows.PrintingStates.Virtual
 
             heatbedPanel.Children.Add(heatbedImage);
             heatbedPanel.Children.Add(heatbed);
-            heatbedPanel.Children.Add(heatbedTarget);
 
             stackPanel.Children.Add(heatbedPanel);
 
-            Text printFinished = new Text(OpenHaloApplication.SegoeUI16, "Print finished");
+            Text printFinished = new Text(OpenHaloApplication.SegoeUI24, "Print finished");
             printFinished.HorizontalAlignment = HorizontalAlignment.Center;
             printFinished.VerticalAlignment = VerticalAlignment.Center;
             printFinished.Visibility = Visibility.Visible;

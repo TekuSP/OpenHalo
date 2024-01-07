@@ -86,3 +86,11 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"TekuSP_OpenHalo" /o:"tekusp" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
            msbuild ${{ env.solution }} /p:Configuration=$env:Configuration
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+      
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4.0.0
+        with:
+          name: Build binaries
+          path: bin/release/*.bin
+          retention-days: 90                
+            
