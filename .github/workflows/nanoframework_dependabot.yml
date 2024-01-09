@@ -32,3 +32,4 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           previewPackages: false
+          solutionsToCheck: OpenHalo.sln
