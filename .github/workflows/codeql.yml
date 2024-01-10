@@ -100,7 +100,7 @@ jobs:
         GITHUB_AUTH_TOKEN: ${{ secrets.githubAuth }}
 
     - name: Restore nugets
-      run: nuget restore ${{ env.solution }} -ConfigFile nuget.config
+      run: nuget restore OpenHalo.sln -ConfigFile nuget.config
 
     - name: Build NanoFramework Application
       run: msbuild OpenHalo.sln /p:Configuration=$env:Configuration
