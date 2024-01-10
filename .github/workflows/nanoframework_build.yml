@@ -89,6 +89,7 @@ jobs:
       
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.0.0
+        if: ${{ matrix.configuration == 'Release' }}
         with:
           name: Build binaries
           path: bin/release/*.bin
