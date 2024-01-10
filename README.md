@@ -5,6 +5,7 @@
 
 [![Build Nanoframework](https://github.com/TekuSP/OpenHalo/actions/workflows/nanoframework_build.yml/badge.svg?branch=master)](https://github.com/TekuSP/OpenHalo/actions/workflows/nanoframework_build.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=TekuSP_OpenHalo&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=TekuSP_OpenHalo)
+[![CodeQL](https://github.com/TekuSP/OpenHalo/actions/workflows/codeql.yml/badge.svg)](https://github.com/TekuSP/OpenHalo/actions/workflows/codeql.yml)
 ---
  ![image](https://github.com/TekuSP/OpenHalo/assets/13198444/df67db7e-9a60-4000-8a0f-c8efe350ac0d)
  ![image](https://github.com/TekuSP/OpenHalo/assets/13198444/383a31a1-ae9c-4b33-806c-89166bdfe481)
