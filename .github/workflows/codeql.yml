@@ -49,11 +49,11 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v4.1.1
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
+      uses: github/codeql-action/init@codeql-bundle-20230524
       with:
         languages: ${{ matrix.language }}
         # If you wish to specify custom queries, you can do so here or in a config file.
@@ -80,22 +80,22 @@ jobs:
     #     ./location_of_script_within_repo/buildscript.sh
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v4.0.0
       with:
         dotnet-version: 7.0.x
 
     - name: Setup MSBuild Path
-      uses: microsoft/setup-msbuild@v1.1
+      uses: microsoft/setup-msbuild@v1.3.1
       with:
         msbuild-architecture: x64
 
     - name: Install NuGet client
-      uses: nuget/setup-nuget@v1
+      uses: nuget/setup-nuget@v1.2.0
       with:
         nuget-version: 'latest'
 
     - name: Install Nanoframework Extension
-      uses: nanoframework/nanobuild@v1
+      uses: nanoframework/nanobuild@v1.14
       env:
         GITHUB_AUTH_TOKEN: ${{ secrets.githubAuth }}
 
@@ -108,6 +108,6 @@ jobs:
         Configuration: Release
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
+      uses: github/codeql-action/analyze@codeql-bundle-20230524
       with:
         category: "/language:${{matrix.language}}"
