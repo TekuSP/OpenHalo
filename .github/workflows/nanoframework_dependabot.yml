@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
-      - uses: nanoframework/nanodu@v1.0.19
+      - uses: nanoframework/nanodu@v1.0.20
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
