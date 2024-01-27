@@ -13,12 +13,15 @@ using System.Threading;
 using System.Net;
 using nanoFramework.Runtime.Native;
 using OpenHalo.Helpers;
+using nanoFramework.WebServer;
+using OpenHalo.Resources.Setup_Webpage;
 
 namespace OpenHalo.Windows
 {
     public class Setup : HaloWindow
     {
         public const string SoftApIP = "192.168.4.1";
+        public static WebServer WebServer;
         public Setup(OpenHaloApplication application) : base(application)
         {
 
@@ -38,6 +41,10 @@ namespace OpenHalo.Windows
             dhcpServer.CaptivePortalUrl = $"http://{SoftApIP}";
             dhcpServer.Start(IPAddress.Parse(SoftApIP), new IPAddress(new byte[] { 255, 255, 255, 0 }), 1200);
             Console.WriteLine("DHCP Server running!");
+            Console.WriteLine("Starting Web Server");
+            if (WebServer == null)
+                WebServer = new WebServer(80, HttpProtocol.Http, new Type[] { typeof(WebController)} );
+            WebServer.Start();
         }
 
         public override void RenderElements()

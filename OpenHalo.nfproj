@@ -20,6 +20,7 @@
   <ItemGroup>
     <Compile Include="Configs\MainConfig.cs" />
     <Compile Include="Moonraker\Query.cs" />
+    <Compile Include="Resources\Setup Webpage\WebController.cs" />
     <Compile Include="TouchInputProvider.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\HttpHelpers.cs" />
@@ -48,22 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Iot.Device.DhcpServer">
-      <HintPath>packages\nanoFramework.Iot.Device.DhcpServer.1.2.407\lib\Iot.Device.DhcpServer.dll</HintPath>
-    </Reference>
-    <Reference Include="MakoIoT.Device.Services.Interface, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>packages\MakoIoT.Device.Services.Interface.1.0.43.29288\lib\MakoIoT.Device.Services.Interface.dll</HintPath>
-      <Private>True</Private>
-      <SpecificVersion>True</SpecificVersion>
-    </Reference>
-    <Reference Include="MakoIoT.Device.Services.Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>packages\MakoIoT.Device.Services.Server.1.0.44.20713\lib\MakoIoT.Device.Services.Server.dll</HintPath>
-      <Private>True</Private>
-      <SpecificVersion>True</SpecificVersion>
-    </Reference>
-    <Reference Include="MakoIoT.Device.Utilities.String, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>packages\MakoIoT.Device.Utilities.String.1.0.33.52014\lib\MakoIoT.Device.Utilities.String.dll</HintPath>
-      <Private>True</Private>
-      <SpecificVersion>True</SpecificVersion>
+      <HintPath>packages\nanoFramework.Iot.Device.DhcpServer.1.2.443\lib\Iot.Device.DhcpServer.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib, Version=1.15.6.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>packages\nanoFramework.CoreLibrary.1.15.5\lib\mscorlib.dll</HintPath>
@@ -130,6 +116,9 @@
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
+    <Reference Include="nanoFramework.WebServer">
+      <HintPath>packages\nanoFramework.WebServer.1.2.23\lib\nanoFramework.WebServer.dll</HintPath>
+    </Reference>
     <Reference Include="System.Device.Gpio, Version=1.1.38.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>packages\nanoFramework.System.Device.Gpio.1.1.38\lib\System.Device.Gpio.dll</HintPath>
       <Private>True</Private>
@@ -142,7 +131,7 @@
       <HintPath>packages\nanoFramework.System.Device.Pwm.1.1.10\lib\System.Device.Pwm.dll</HintPath>
     </Reference>
     <Reference Include="System.Device.Wifi">
-      <HintPath>packages\nanoFramework.System.Device.Wifi.1.5.71\lib\System.Device.Wifi.dll</HintPath>
+      <HintPath>packages\nanoFramework.System.Device.Wifi.1.5.74\lib\System.Device.Wifi.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.FileSystem, Version=1.1.32.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>packages\nanoFramework.System.IO.FileSystem.1.1.32\lib\System.IO.FileSystem.dll</HintPath>
@@ -157,15 +146,11 @@
     <Reference Include="System.Math">
       <HintPath>packages\nanoFramework.System.Math.1.5.43\lib\System.Math.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net, Version=1.10.64.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>packages\nanoFramework.System.Net.1.10.64\lib\System.Net.dll</HintPath>
-      <Private>True</Private>
-      <SpecificVersion>True</SpecificVersion>
+    <Reference Include="System.Net">
+      <HintPath>packages\nanoFramework.System.Net.1.10.70\lib\System.Net.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http, Version=1.5.113.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>packages\nanoFramework.System.Net.Http.1.5.113\lib\System.Net.Http.dll</HintPath>
-      <Private>True</Private>
-      <SpecificVersion>True</SpecificVersion>
+    <Reference Include="System.Net.Http">
+      <HintPath>packages\nanoFramework.System.Net.Http.1.5.118\lib\System.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading, Version=1.1.32.63105, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>packages\nanoFramework.System.Threading.1.1.32\lib\System.Threading.dll</HintPath>
@@ -193,6 +178,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Setup Webpage\HTML\index.html" />
     <None Include="Resources\Fonts\SegoeUI12.tinyfnt" />
     <None Include="Resources\Fonts\SegoeUI14.tinyfnt" />
     <None Include="Resources\Fonts\SegoeUI16.tinyfnt" />
@@ -219,11 +205,6 @@
       <Generator>nFResXFileCodeGenerator</Generator>
       <LastGenOutput>ResourceDictionary.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\Setup Webpage\HTML\" />
-    <Folder Include="Resources\Setup Webpage\CSS\" />
-    <Folder Include="Resources\Setup Webpage\JS\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Icons\settings.jpg" />

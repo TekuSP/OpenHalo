@@ -33,6 +33,10 @@ namespace OpenHalo.Resources
         {
             return ((nanoFramework.UI.Font)(nanoFramework.Runtime.Native.ResourceUtility.GetObject(ResourceManager, id)));
         }
+        internal static byte[] GetBytes(ResourceDictionary.BinaryResources id)
+        {
+            return ((byte[])(nanoFramework.Runtime.Native.ResourceUtility.GetObject(ResourceManager, id)));
+        }
         [System.SerializableAttribute()]
         internal enum FontResources : short
         {
@@ -60,6 +64,11 @@ namespace OpenHalo.Resources
             moonraker = 15675,
             wifi = 17980,
             pause = 31669,
+        }
+        [System.SerializableAttribute()]
+        internal enum BinaryResources : short
+        {
+            index = -2501,
         }
     }
 }

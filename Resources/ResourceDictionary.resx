@@ -130,6 +130,9 @@
   <data name="heatbed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Icons\heatbed.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="index" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Setup Webpage\HTML\index.html;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="moonraker" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Icons\moonraker.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

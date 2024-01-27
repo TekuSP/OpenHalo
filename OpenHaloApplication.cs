@@ -92,6 +92,7 @@ namespace OpenHalo
             Console.WriteLine("Fonts initialized!");
             Console.WriteLine("Initializing backlight...");
             BackLightPWM = PwmChannel.CreateFromPin(backLightPin, 400);
+            BackLightPWM.Start();
             SetBrightness(0.5);
             Console.WriteLine($"Backlight initialized on pin: {backLightPin} !");
             Console.WriteLine("Initializing CST816D TouchScreen...");

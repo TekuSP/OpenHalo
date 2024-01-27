@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link
+    href="data:image/x-icon;base64,AAABAAEAEBAQAAEABABoAQAAFgAAAIlQTkcNChoKAAAADUlIRFIAAAAQAAAAEAgGAAAAH/P/YQAAAS9JREFUOI2Fk0tqwzAQhr8oxU/iFBdEccgBAj1KL9k79Qahmy4KKUiyjeN0oUiR/KCzGpDnf8148/7ycQM4jT3NYJAYagzPN0M1aFJ6duMvAPleIY6KzWsLAAeNYKF+yH3fkdAVJflexR8dNIAFOI199FZjfL/LbG8uZQzwVYBsEW64GQxrlWq1rOA7iy1I5iB9u/UKxFHN3kUzmIjdBegqya6ADXA8l3OANfZq0P8rkK0FcMP1BGS6wvFcPlYINoMpcygfoCus7CX/XsGU3clPsqvfwHgOLNxvAEDU98ubsqc8bmNtAxCE6Ibd+br0Q/9L9TT1HFZ4QNE/ACDbWEE16Ig91coHODvjUIEb6kgAIumpVog3RRn6DwL0CjoSu/PM0LdbUq28d/UpV9kB/gDoZph5WjoZeAAAAABJRU5ErkJggg=="
+    rel="icon"
+    type="image/x-icon"
+  />
+
+  <style>
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sup, sub, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0; padding: 0; border: 0; font-size: 100%; vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+body {
+	line-height: 1;
+}a
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+    #wifiPointsContainer li {
+      cursor: pointer;
+    }
+    .arrow:hover {
+      color: red;
+      cursor: pointer;
+   
+    }
+    .arroww:hover {
+      background-color: #ff000088;
+      cursor: pointer;
+    }
+    .fruit {
+      font-size: 30px;
+    }
+    body {
+      font-family: arial;
+      color: white;
+      background-color: #ff9f00;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg stroke='%23000' stroke-width='66.7' stroke-opacity='0.05' %3E%3Ccircle fill='%23FF9F00' cx='0' cy='0' r='1800'/%3E%3Ccircle fill='%23ff8e0d' cx='0' cy='0' r='1700'/%3E%3Ccircle fill='%23ff7d1a' cx='0' cy='0' r='1600'/%3E%3Ccircle fill='%23ff6a26' cx='0' cy='0' r='1500'/%3E%3Ccircle fill='%23ff5631' cx='0' cy='0' r='1400'/%3E%3Ccircle fill='%23ff3f3b' cx='0' cy='0' r='1300'/%3E%3Ccircle fill='%23ff2146' cx='0' cy='0' r='1200'/%3E%3Ccircle fill='%23fb0050' cx='0' cy='0' r='1100'/%3E%3Ccircle fill='%23f3005b' cx='0' cy='0' r='1000'/%3E%3Ccircle fill='%23ea0066' cx='0' cy='0' r='900'/%3E%3Ccircle fill='%23de0070' cx='0' cy='0' r='800'/%3E%3Ccircle fill='%23cf007b' cx='0' cy='0' r='700'/%3E%3Ccircle fill='%23be0086' cx='0' cy='0' r='600'/%3E%3Ccircle fill='%23aa0090' cx='0' cy='0' r='500'/%3E%3Ccircle fill='%23930099' cx='0' cy='0' r='400'/%3E%3Ccircle fill='%237700a2' cx='0' cy='0' r='300'/%3E%3Ccircle fill='%235300a9' cx='0' cy='0' r='200'/%3E%3Ccircle fill='%23000DAE' cx='0' cy='0' r='100'/%3E%3C/g%3E%3C/svg%3E");
+      background-attachment: fixed;
+      background-size: cover;
+text-align: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .wifiBlock {
+      border: solid white 1px;
+      border-radius: 10px;
+      margin: 7px;
+      padding: 4px;
+      font-size: 12px;
+      background-color: #00000044;
+    }
+    .wifiBlock:hover {
+      background-color: #00000077;
+    }
+
+    #signal3 #bar1 {
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      background-color: green;
+    }
+    #signal3 #bar2 {
+      display: inline-block;
+      width: 5px;
+      height: 10px;
+      background-color: green;
+      margin-left: 2px;
+    }
+    #signal3 #bar3 {
+      display: inline-block;
+      width: 5px;
+      height: 14px;
+      background-color: green;
+      margin-left: 2px;
+    }
+
+    #signal2 #bar1 {
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      background-color: green;
+    }
+    #signal2 #bar2 {
+      display: inline-block;
+      width: 5px;
+      height: 10px;
+      background-color: green;
+      margin-left: 2px;
+    }
+    #signal2 #bar3 {
+      display: inline-block;
+      width: 5px;
+      height: 14px;
+      background-color: grey;
+      margin-left: 2px;
+    }
+
+    #signal1 #bar1 {
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      background-color: green;
+    }
+    #signal1 #bar2 {
+      display: inline-block;
+      width: 5px;
+      height: 10px;
+      background-color: grey;
+      margin-left: 2px;
+    }
+    #signal1 #bar3 {
+      display: inline-block;
+      width: 5px;
+      height: 14px;
+      background-color: grey;
+      margin-left: 2px;
+    }
+
+    #signal0 #bar1 {
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      background-color: grey;
+    }
+    #signal0 #bar2 {
+      display: inline-block;
+      width: 5px;
+      height: 10px;
+      background-color: grey;
+      margin-left: 2px;
+    }
+    #signal0 #bar3 {
+      display: inline-block;
+      width: 5px;
+      height: 14px;
+      background-color: grey;
+      margin-left: 2px;
+    }
+
+    .wifiPointsContainer {
+      margin: 20px;
+      display: inline-block;
+      vertical-align: middle;
+      list-style-type: none;
+      border-radius: 10px;
+ 
+      top: 20%;
+      position: absolute;
+
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 20px;
+      text-align: center;
+
+      transition: box-shadow 0.3s ease;
+      position: relative;
+    }
+
+    .wifiPointsContainer :before {
+      border-radius: 10px;
+      padding-top:5px;
+      z-index: -1;
+      background-color: #ff9f00;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg stroke='%23000' stroke-width='66.7' stroke-opacity='0.05' %3E%3Ccircle fill='%23FF9F00' cx='0' cy='0' r='1800'/%3E%3Ccircle fill='%23ff8e0d' cx='0' cy='0' r='1700'/%3E%3Ccircle fill='%23ff7d1a' cx='0' cy='0' r='1600'/%3E%3Ccircle fill='%23ff6a26' cx='0' cy='0' r='1500'/%3E%3Ccircle fill='%23ff5631' cx='0' cy='0' r='1400'/%3E%3Ccircle fill='%23ff3f3b' cx='0' cy='0' r='1300'/%3E%3Ccircle fill='%23ff2146' cx='0' cy='0' r='1200'/%3E%3Ccircle fill='%23fb0050' cx='0' cy='0' r='1100'/%3E%3Ccircle fill='%23f3005b' cx='0' cy='0' r='1000'/%3E%3Ccircle fill='%23ea0066' cx='0' cy='0' r='900'/%3E%3Ccircle fill='%23de0070' cx='0' cy='0' r='800'/%3E%3Ccircle fill='%23cf007b' cx='0' cy='0' r='700'/%3E%3Ccircle fill='%23be0086' cx='0' cy='0' r='600'/%3E%3Ccircle fill='%23aa0090' cx='0' cy='0' r='500'/%3E%3Ccircle fill='%23930099' cx='0' cy='0' r='400'/%3E%3Ccircle fill='%237700a2' cx='0' cy='0' r='300'/%3E%3Ccircle fill='%235300a9' cx='0' cy='0' r='200'/%3E%3Ccircle fill='%23000DAE' cx='0' cy='0' r='100'/%3E%3C/g%3E%3C/svg%3E");
+      background-attachment: fixed;
+      background-size: cover;
+
+      content: "Available WiFi";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+    }
+
+    #wifiAddedPointsContainer :before {
+      padding-top:5px;
+      content: "Saved WiFi";
+    }
+    .wifiPointsContainer :after {
+      border-radius: 10px;
+      z-index: -1;
+      content: "";
+      background-color: #33333333;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+    }
+    
+    #keys {width:auto;
+
+
+}
+    #keys :before {
+
+      content:"";
+    }
+
+    .my-btn-class-32 {
+align-items: center; appearance: none; background-image: radial-gradient(100% 100% at 100% 0px, rgb(90, 218, 255) 0px, rgb(84, 104, 255) 100%); border: 0px; border-radius: 6px; box-shadow: rgba(45, 35, 66, 0.4) 0px 2px 4px, rgba(45, 35, 66, 0.3) 0px 7px 13px -3px, rgba(58, 65, 111, 0.5) 0px -3px 0px inset; box-sizing: border-box; color: rgb(255, 255, 255); cursor: pointer; display: inline-flex; font-family: "JetBrains Mono", monospace; height: 25px; justify-content: center; line-height: 0px; overflow: hidden; position: relative; text-decoration: none; transition: box-shadow 0.15s ease 0s, transform 0.15s ease 0s; user-select: none; touch-action: manipulation; white-space: nowrap; will-change: box-shadow, transform; font-size: 1rem;
+}
+
+.my-btn-class-32:focus {
+box-shadow: rgb(60, 79, 224) 0px 0px 0px 1.5px inset, rgba(45, 35, 66, 0.4) 0px 2px 4px, rgba(45, 35, 66, 0.3) 0px 7px 13px -3px, rgb(60, 79, 224) 0px -3px 0px inset;
+}
+
+.my-btn-class-32:hover {
+box-shadow: rgba(45, 35, 66, 0.4) 0px 4px 8px, rgba(45, 35, 66, 0.3) 0px 7px 13px -3px, rgb(60, 79, 224) 0px -3px 0px inset; transform: translateY(-2px);
+}
+
+.my-btn-class-32:active {
+box-shadow: rgb(60, 79, 224) 0px 3px 7px inset; transform: translateY(2px);
+}
+
+#bottomDiv {
+
+ text-align: center;
+  vertical-align: top;
+  width: 100%;
+}
+
+
+    
+  </style>
+</head>
+<body>
+  <header></header>
+<div id="bottomDiv">
+  <ul id="wifiPointsContainer" class="wifiPointsContainer"></ul>
+  <ul id="wifiAddedPointsContainer" class="wifiPointsContainer"></ul>
+
+  <ul id="keys" class="wifiPointsContainer">
+    Moonraker Uri:<br><input
+    onchange="wifiAddedPointsData[0].MoonrakerUri=this.value"
+    size="14"
+    placeholder="000.000.000.000"
+    type="text"
+    value=""
+    id="inputUri"
+  /><br><br>
+  Moonraker API key:<br><input
+    onchange="wifiAddedPointsData[0].MoonrakerApiKey=this.value"
+    onfocus="this.type='text'"
+    onBlur="this.type='password'"
+    size="8"
+    value="${wifiPoint.Password}"
+    type="password"
+    placeholder="Repeat password"
+    id="inputApiKey"
+  /><br><br><input value="Save and reboot" type="button" class="my-btn-class-32"><ul />
+
+</div>
+
+<br>
+ 
+
+
+
+  
+  </div>
+  <script>
+    //the json
+
+    let wifiPointsData = [
+      {
+        Bsid: "6A-D7-9A-25-C5-E2",
+        Ssid: "provozni",
+        SignalBars: 3,
+        NetworkRssiInDecibelMilliwatts: -67.999999999999998,
+        NetworkKind: 1,
+      },
+      {
+        Bsid: "6A-D7-9A-35-C5-E2",
+        Ssid: "cisco-data",
+        SignalBars: 3,
+        NetworkRssiInDecibelMilliwatts: -67.999999999999998,
+        NetworkKind: 1,
+      },
+      {
+        Bsid: "6A-D7-9A-45-C5-E2",
+        Ssid: "vasvac",
+        SignalBars: 3,
+        NetworkRssiInDecibelMilliwatts: -69,
+        NetworkKind: 1,
+      },
+      {
+        Bsid: "68-D7-9A-45-C5-E2",
+        Ssid: "kosticka",
+        SignalBars: 3,
+        NetworkRssiInDecibelMilliwatts: -70.999999999999996,
+        NetworkKind: 1,
+      },
+      {
+        Bsid: "B0-BE-76-89-20-80",
+        Ssid: "Mastalirovi",
+        SignalBars: 2,
+        NetworkRssiInDecibelMilliwatts: -79,
+        NetworkKind: 1,
+      },
+      {
+        Bsid: "D8-0D-17-74-52-BA",
+        Ssid: "Andreanet",
+        SignalBars: 1,
+        NetworkRssiInDecibelMilliwatts: -86.999999999999993,
+        NetworkKind: 1,
+      },
+      {
+        Bsid: "1C-3B-F3-9C-65-1F",
+        Ssid: "Kovarovi",
+        SignalBars: 1,
+        NetworkRssiInDecibelMilliwatts: -90.999999999999996,
+        NetworkKind: 1,
+      },
+    ];
+
+    let iconString = [
+      "🍉",
+      "🍊",
+      "🍋",
+      "🍌",
+      "🍍",
+      "🥭",
+      "🍎",
+      "🍇",
+      "🍈",
+      "🍏",
+      "🍐",
+      "🍑",
+      "🍒",
+      "🍓",
+      "🥝",
+      "🍅",
+      "🥥",
+      "🥑",
+      "🍆",
+      "🥔",
+      "🥕",
+      "🌽",
+      "🌶️",
+      "🥒",
+      "🥬",
+      "🥦",
+      "🧄",
+      "🧅",
+      "🥜",
+      "🌰",
+      "🍞",
+      "🥐",
+      "🥖",
+      "🥨",
+      "🥯",
+      "🥞",
+      "🧇",
+      "🧀",
+      "🍖",
+      "🍗",
+      "🥩",
+      "🥓",
+      "🍔",
+      "🍟",
+      "🍕",
+      "🌭",
+      "🥪",
+      "🌮",
+      "🌯",
+      "🥙",
+      "🧆",
+      "🥚",
+      "🍳",
+      "🥘",
+      "🍲",
+      "🥣",
+      "🥗",
+      "🍿",
+      "🧈",
+      "🍘",
+      "🍙",
+      "🍚",
+      "🍛",
+      "🍜",
+      "🍠",
+      "🍢",
+      "🍣",
+      "🍤",
+      "🍥",
+      "🥮",
+      "🍡",
+      "🥟",
+      "🥠",
+      "🥡",
+      "🍦",
+      "🍧",
+      "🍨",
+      "🍩",
+      "🍪",
+      "🎂",
+      "🍰",
+      "🧁",
+      "🥧",
+      "🍫",
+      "🍬",
+      "🍭",
+      "🍮",
+      "🍯",
+    ];
+
+    let wifiAddedPointsData = [
+      {
+        MoonrakerUri: "192.168.100.249",
+        Wifis: [
+          { Password: "nemysli", Hidden: false, SSID: "vasvac" },
+          { Password: "fuh", Hidden: false, SSID: "Mastalirovi" },
+        ],
+        MoonrakerApiKey: "5cd06d0b3afe4934b758d48599e0b6c6",
+      },
+    ];
+
+    function updateWifiList() {
+      let wifiPointsContainer = document.getElementById("wifiPointsContainer");
+      wifiPointsData.forEach(function (wifiPoint, index) {
+        let wifiPointBlock = document.createElement("li");
+        if (searchSsidAdded(wifiPoint.Ssid) === -1) {
+          wifiPointBlock.innerHTML = `
+                    <li class="wifiBlock" id="li${index}" onclick="addToAdded(${index})">
+                    <div class="fruit">${iconString[index]}</div>
+                    <div><b>${wifiPoint.Ssid}</b></div>
+                    <div> ${wifiPoint.Bsid}</div>
+                    <span id="signal${wifiPoint.SignalBars}"><div id="bar1"></div><div id="bar2"></div><div id="bar3"></div></span>
+                    <span> ${wifiPoint.NetworkRssiInDecibelMilliwatts}dBm</span>
+                    <span> ${wifiPoint.NetworkKind} </span><br>
+                    </li>
+                `;
+          wifiPointsContainer.appendChild(wifiPointBlock);
+        }
+      });
+    }
+    updateWifiList();
+
+    function updateAddedWifiList() {
+      let wifiPointsContainer = document.getElementById(
+        "wifiAddedPointsContainer"
+      );
+      wifiAddedPointsData[0].Wifis.forEach(function (wifiPoint, index) {
+        let wifiPointBlock = document.createElement("li");
+        let wifiIndex = searchSsid(wifiPoint.SSID);
+        wifiPointBlock.innerHTML = `
+                    <li class="wifiBlock" id="li${index}">
+                    <div class="fruit">${iconString[wifiIndex]}</div>
+                    <div><b>${wifiPoint.SSID}</b></div>
+                    <div> ${wifiPointsData[wifiIndex].Bsid}</div>
+                    <span id="signal${wifiPointsData[wifiIndex].SignalBars}"><div id="bar1"></div><div id="bar2"></div><div id="bar3"></div></span>
+                    <span> ${wifiPointsData[wifiIndex].NetworkRssiInDecibelMilliwatts}dBm</span>
+                    <span> ${wifiPointsData[wifiIndex].NetworkKind} </span><br>
+                    <input onchange="passwordChange(${index},this.value)" onfocus="this.type='text'" onBlur="this.type='password'" size="8" value="${wifiPoint.Password}" type="password" placeholder="Repeat password" /><br>
+                    <span class="arrow" onclick="arrowUp(${index})">▲</span> <span class="arrow" onclick="arrowDown(${index})"">▼</span> <span class="arroww" onclick="deleteAdded(${index})"">🗑</span>
+                    </li>
+
+                `;
+        wifiPointsContainer.appendChild(wifiPointBlock);
+      });
+    }
+    updateAddedWifiList();
+
+    function searchSsid(SsidToSearch) {
+      return wifiPointsData.findIndex((x) => x.Ssid === SsidToSearch);
+    }
+
+    function searchSsidAdded(fufu) {
+      return wifiAddedPointsData[0].Wifis.findIndex((x) => x.SSID === fufu);
+    }
+
+    function arrowUp(x) {
+      if (x - 1 >= 0) {
+        console.log("up");
+        [wifiAddedPointsData[0].Wifis[x], wifiAddedPointsData[0].Wifis[x - 1]] =
+          [
+            wifiAddedPointsData[0].Wifis[x - 1],
+            wifiAddedPointsData[0].Wifis[x],
+          ];
+        wifiAddedPointsContainer.innerHTML = "";
+        updateAddedWifiList();
+      } else {
+        console.log("nonono");
+      }
+    }
+
+    function arrowDown(x) {
+      if (x + 1 < wifiAddedPointsData[0].Wifis.length) {
+        console.log("down");
+        [wifiAddedPointsData[0].Wifis[x + 1], wifiAddedPointsData[0].Wifis[x]] =
+          [
+            wifiAddedPointsData[0].Wifis[x],
+            wifiAddedPointsData[0].Wifis[x + 1],
+          ];
+        wifiAddedPointsContainer.innerHTML = "";
+        updateAddedWifiList();
+      } else {
+        console.log("chinese syndrome");
+      }
+    }
+    function addBlock(x) {
+      wifiPointsContainer.innerHTML = "";
+      updateWifiList();
+    }
+    function deleteAdded(index) {
+      if (index >= 0 && index < wifiAddedPointsData[0].Wifis.length) {
+        wifiAddedPointsData[0].Wifis.splice(index, 1);
+        wifiAddedPointsContainer.innerHTML = "";
+        updateAddedWifiList();
+        wifiPointsContainer.innerHTML = "";
+        updateWifiList();
+      } else {
+        console.error("out off json");
+      }
+    }
+
+    function addToAdded(x) {
+      wifiAddedPointsData[0].Wifis.push({
+        Password: "xxx",
+        Hidden: false,
+        SSID: wifiPointsData[x].Ssid,
+      });
+      wifiAddedPointsContainer.innerHTML = "";
+      updateAddedWifiList();
+      wifiPointsContainer.innerHTML = "";
+      updateWifiList();
+      console.log(wifiAddedPointsData);
+    }
+
+    function passwordChange(index, value) {
+      wifiAddedPointsData[0].Wifis[index].SSID = "value";
+    }
+
+    //nacitava pri starte hodnotu do inputu
+    document.getElementById("inputUri").value=wifiAddedPointsData[0].MoonrakerUri;
+    document.getElementById("inputApiKey").value=wifiAddedPointsData[0].MoonrakerApiKey;
+  </script>
+</body>
