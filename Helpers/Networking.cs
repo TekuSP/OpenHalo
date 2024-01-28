@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Device.Wifi;
 using System.Net.NetworkInformation;
 
 using nanoFramework.Presentation;
@@ -31,6 +32,16 @@ namespace OpenHalo.Helpers
             return null;
         }
         /// <summary>
+        /// Returns WIFI Adapter
+        /// </summary>
+        /// <returns>WIFI Adapter</returns>
+        public static WifiAdapter GetAdapter()
+        {
+            WifiAdapter[] Adapters = WifiAdapter.FindAllAdapters();
+
+            return Adapters[0];
+        }
+        /// <summary>
         /// Gets configuration of client mode
         /// </summary>
         /// <returns>Configuration of client mode</returns>
@@ -52,15 +63,14 @@ namespace OpenHalo.Helpers
         /// Enables AP Mode and reboots
         /// </summary>
         /// <param name="instance">Window instance to close</param>
-        /// <param name="app">App to use for opening Reboot</param>
         /// <param name="SoftApIP">Static IP Address</param>
-        public static void EnableAPMode(Window instance, OpenHaloApplication app, string SoftApIP)
+        public static void EnableAPMode(Window instance, string SoftApIP)
         {
             Console.WriteLine("Enabling Wifi AP Mode...");
             NetworkInterface ni = GetInterface();
             WirelessAPConfiguration wirelessAPConfiguration = GetConfiguration();
             Wireless80211Configuration config = Get80211Configuration(); //Disable WIFI
-            config.Options = Wireless80211Configuration.ConfigurationOptions.Enable;
+            config.Options = Wireless80211Configuration.ConfigurationOptions.Disable;
             config.SaveConfiguration();
             Console.WriteLine("Disabled WIFI Client mode...");
 
@@ -74,9 +84,9 @@ namespace OpenHalo.Helpers
             wirelessAPConfiguration.SaveConfiguration();
             Console.WriteLine("Enabling AP Mode for 3 clients with SSID \"OpenHalo Setup\"...");
             Console.WriteLine("Reboot to save WIFI configuration....");
-            app.MainWindow.Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
+            HaloWindow.App.MainWindow.Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
             {
-                app.MainWindow = new Reboot(app);
+                HaloWindow.App.MainWindow = new Reboot(HaloWindow.App);
                 instance.Close();
                 return null;
             }, null);
@@ -85,8 +95,7 @@ namespace OpenHalo.Helpers
         /// Enables Client Mode and reboots
         /// </summary>
         /// <param name="instance">Window instance to close</param>
-        /// <param name="app">APp to use for opening Reboot</param>
-        public static void EnableClientMode(Window instance, OpenHaloApplication app)
+        public static void EnableClientMode(Window instance)
         {
             Console.WriteLine("Enabling Wifi Client Mode...");
             NetworkInterface ni = GetInterface();
@@ -101,10 +110,34 @@ namespace OpenHalo.Helpers
             config.SaveConfiguration();
             Console.WriteLine("Enable WIFI Client mode...");
             Console.WriteLine("Reboot to save WIFI configuration....");
-            app.MainWindow.Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
+            HaloWindow.App.MainWindow.Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
             {
-                app.MainWindow = new Reboot(app);
+                HaloWindow.App.MainWindow = new Reboot(HaloWindow.App);
                 instance.Close();
+                return null;
+            }, null);
+        }
+        /// <summary>
+        /// Enables Client Mode and reboots, without closing instance, not recommended!
+        /// </summary>
+        public static void EnableClientMode()
+        {
+            Console.WriteLine("Enabling Wifi Client Mode...");
+            NetworkInterface ni = GetInterface();
+            ni.EnableDhcp();
+            Console.WriteLine("Enabled DHCP Client...");
+            WirelessAPConfiguration wirelessAPConfiguration = GetConfiguration();
+            Console.WriteLine("Disabled WIFI AP Mode....");
+            wirelessAPConfiguration.Options = WirelessAPConfiguration.ConfigurationOptions.None;
+            wirelessAPConfiguration.SaveConfiguration();
+            Wireless80211Configuration config = Get80211Configuration();
+            config.Options = Wireless80211Configuration.ConfigurationOptions.AutoConnect;
+            config.SaveConfiguration();
+            Console.WriteLine("Enable WIFI Client mode...");
+            Console.WriteLine("Reboot to save WIFI configuration....");
+            HaloWindow.App.MainWindow.Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
+            {
+                HaloWindow.App.MainWindow = new Reboot(HaloWindow.App);
                 return null;
             }, null);
         }
@@ -119,7 +152,7 @@ namespace OpenHalo.Helpers
                 return false;
             if (GetConfiguration().Options != (WirelessAPConfiguration.ConfigurationOptions.Enable | WirelessAPConfiguration.ConfigurationOptions.AutoStart))
                 return false;
-            if (Get80211Configuration().Options != Wireless80211Configuration.ConfigurationOptions.Enable)
+            if (Get80211Configuration().Options != Wireless80211Configuration.ConfigurationOptions.Disable)
                 return false;
             return true;
         }

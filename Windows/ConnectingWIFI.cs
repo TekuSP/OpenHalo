@@ -27,7 +27,7 @@ namespace OpenHalo.Windows
             if (!Networking.IsClientModeEnabled() || !Networking.IsModeValid())
             {
                 Console.WriteLine("We are in wrong WiFi mode, or mode is invalid!");
-                Networking.EnableClientMode(this, App);
+                Networking.EnableClientMode(this);
                 return;
             }
             Configs.Wifi permanent = null;

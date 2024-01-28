@@ -15,6 +15,7 @@ using nanoFramework.Runtime.Native;
 using OpenHalo.Helpers;
 using nanoFramework.WebServer;
 using OpenHalo.Resources.Setup_Webpage;
+using nanoFramework.Json;
 
 namespace OpenHalo.Windows
 {
@@ -22,6 +23,7 @@ namespace OpenHalo.Windows
     {
         public const string SoftApIP = "192.168.4.1";
         public static WebServer WebServer;
+        public static string NearbyAPs;
         public Setup(OpenHaloApplication application) : base(application)
         {
 
@@ -32,19 +34,44 @@ namespace OpenHalo.Windows
             Console.WriteLine($"Starting SSID OpenHalo Setup on {SoftApIP}");
 
             if (!Networking.IsAPModeEnabled() || !Networking.IsModeValid())
-                Networking.EnableAPMode(this, App, SoftApIP);
+                Networking.EnableAPMode(this, SoftApIP);
 
             Console.WriteLine("SSID Running!");
 
             Console.WriteLine("Starting DHCP Server....");
             DhcpServer dhcpServer = new DhcpServer();
             dhcpServer.CaptivePortalUrl = $"http://{SoftApIP}";
-            dhcpServer.Start(IPAddress.Parse(SoftApIP), new IPAddress(new byte[] { 255, 255, 255, 0 }), 1200);
-            Console.WriteLine("DHCP Server running!");
+            var result = dhcpServer.Start(IPAddress.Parse(SoftApIP), new IPAddress(new byte[] { 255, 255, 255, 0 }), 1200);
+            if (result)
+                Console.WriteLine("DHCP Server running!");
+            else
+                Console.WriteLine("Error, DHCP Server not started!");
             Console.WriteLine("Starting Web Server");
             if (WebServer == null)
                 WebServer = new WebServer(80, HttpProtocol.Http, new Type[] { typeof(WebController)} );
             WebServer.Start();
+
+            var adapter = Networking.GetAdapter();
+            adapter.AvailableNetworksChanged += Adapter_AvailableNetworksChanged;
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Trying scan....");
+                    adapter.ScanAsync();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Exception scanning...");
+                    Console.WriteLine(ex.ToString());
+                }
+                finally { Thread.Sleep(10000); }
+            }
+        }
+
+        private void Adapter_AvailableNetworksChanged(System.Device.Wifi.WifiAdapter sender, object e)
+        {
+            NearbyAPs = JsonConvert.SerializeObject(sender.NetworkReport.AvailableNetworks);
         }
 
         public override void RenderElements()
@@ -93,7 +120,7 @@ namespace OpenHalo.Windows
         private void Reboot()
         {
             Console.WriteLine("Requested reboot to normal operation mode...");
-            Networking.EnableClientMode(this, App); //Enables client mode and reboots
+            Networking.EnableClientMode(this); //Enables client mode and reboots
         }
         protected override void OnButtonDown(ButtonEventArgs e)
         {

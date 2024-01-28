@@ -124,36 +124,9 @@ namespace OpenHalo
                 mainWindow = new EnterSetup(myApplication);
             }
 
-
-            //WifiAdapter wifi = WifiAdapter.FindAllAdapters()[0];
-            //wifi.AvailableNetworksChanged += WifiAdapter_AvailableNetworksChanged;
-            //Thread th = new Thread(() =>
-            //{
-            //    while (true)
-            //    {
-            //        try
-            //        {
-            //            Console.WriteLine("Trying scan....");
-            //            wifi.ScanAsync();
-            //        }
-            //        catch (Exception)
-            //        {
-            //            Console.WriteLine("Exception scanning...");
-            //        }
-            //        finally { Thread.Sleep(10000); }
-            //    }
-
-            //});
-            //th.Start();
-
             Console.WriteLine("Rendering and launching app!");
             myApplication.Run();
         }
-
-        //private static void WifiAdapter_AvailableNetworksChanged(WifiAdapter sender, object e)
-        //{
-        //    Console.WriteLine(JsonConvert.SerializeObject(sender.NetworkReport.AvailableNetworks));
-        //}
 
         public static void SetBrightness(double brightness)
         {

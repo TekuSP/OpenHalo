@@ -101,6 +101,41 @@ namespace OpenHalo.Helpers
             return null; //File is missing
         }
         /// <summary>
+        /// Loads config JSON file
+        /// </summary>
+        /// <returns>Returns JSON string</returns>
+        public static string LoadConfigJSON()
+        {
+            if (VerifyConfig())
+            {
+                var file = StorageFile.GetFileFromPath(ConfigPath);
+                var configString = FileIO.ReadText(file);
+                Console.WriteLine("Main configuration found and valid, returning config json.");
+                return configString;
+            }
+            if (VerifyBackupConfig())
+            {
+                var file = StorageFile.GetFileFromPath(BackupConfigPath);
+                var configString = FileIO.ReadText(file);
+                Console.WriteLine("Backup configuration file found and valid, copying to main...");
+                var config = (MainConfig)JsonConvert.DeserializeObject(configString, typeof(MainConfig));
+                SaveConfig(config);
+                Console.WriteLine("Returning backup configuration json as primary...");
+                return configString;
+            }
+            Console.WriteLine("Config primary and backup is missing!");
+            return null; //File is missing
+        }
+        /// <summary>
+        /// Saves config from JSON string
+        /// </summary>
+        /// <param name="json">JSON string to save</param>
+        public static void SaveConfigJSON(string json)
+        {
+            var config = (MainConfig)JsonConvert.DeserializeObject(json, typeof(MainConfig));
+            SaveConfig(config);
+        }
+        /// <summary>
         /// Saves config primary and backup
         /// </summary>
         /// <param name="config">Config to save</param>

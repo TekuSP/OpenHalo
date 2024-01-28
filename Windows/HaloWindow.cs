@@ -15,10 +15,14 @@ namespace OpenHalo.Windows
     /// </summary>
     public abstract class HaloWindow : Window
     {
+        private Thread OnLoadedThread
+        {
+            get; set;
+        }
         /// <summary>
         /// Our App main class
         /// </summary>
-        protected OpenHaloApplication App
+        public static OpenHaloApplication App
         {
             get; set;
         }
@@ -40,8 +44,8 @@ namespace OpenHalo.Windows
 
             RenderElements();
 
-            Thread th = new Thread(OnLoaded);
-            th.Start();
+            OnLoadedThread = new Thread(OnLoaded);
+            OnLoadedThread.Start();
         }
         /// <summary>
         /// Here runs active code, remember so you are in different thread!
@@ -51,5 +55,14 @@ namespace OpenHalo.Windows
         /// Insert all elements to be initialized here
         /// </summary>
         public abstract void RenderElements();
+        
+        /// <summary>
+        /// Closes the window.
+        /// </summary>
+        public new void Close()
+        {
+            OnLoadedThread.Abort(); //ABORT running thread
+            base.Close();
+        }
     }
 }
