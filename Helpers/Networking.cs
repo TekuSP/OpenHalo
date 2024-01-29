@@ -60,6 +60,30 @@ namespace OpenHalo.Helpers
             return Wireless80211Configuration.GetAllWireless80211Configurations()[ni.SpecificConfigId];
         }
         /// <summary>
+        /// Enables 802.11 WiFi Client mode
+        /// </summary>
+        public static void Enable80211()
+        {
+            Wireless80211Configuration config = Get80211Configuration(); //Disable WIFI
+            config.Options = Wireless80211Configuration.ConfigurationOptions.Enable;
+            config.Ssid = "";
+            config.Password = "";
+            config.SaveConfiguration();
+            Console.WriteLine("Enabled WIFI Client mode...");
+        }
+        /// <summary>
+        /// Disables 802.11 WiFi Client mode
+        /// </summary>
+        public static void Disable80211()
+        {
+            Wireless80211Configuration config = Get80211Configuration(); //Disable WIFI
+            config.Options = Wireless80211Configuration.ConfigurationOptions.Disable;
+            config.Ssid = "";
+            config.Password = "";
+            config.SaveConfiguration();
+            Console.WriteLine("Disabled WIFI Client mode...");
+        }
+        /// <summary>
         /// Enables AP Mode and reboots
         /// </summary>
         /// <param name="instance">Window instance to close</param>
@@ -152,7 +176,7 @@ namespace OpenHalo.Helpers
                 return false;
             if (GetConfiguration().Options != (WirelessAPConfiguration.ConfigurationOptions.Enable | WirelessAPConfiguration.ConfigurationOptions.AutoStart))
                 return false;
-            if (Get80211Configuration().Options != Wireless80211Configuration.ConfigurationOptions.Disable)
+            if (!(Get80211Configuration().Options == Wireless80211Configuration.ConfigurationOptions.Disable || Get80211Configuration().Options == Wireless80211Configuration.ConfigurationOptions.Enable))
                 return false;
             return true;
         }

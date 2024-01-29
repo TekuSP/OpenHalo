@@ -39,6 +39,7 @@ namespace OpenHalo.Windows
             Console.WriteLine("SSID Running!");
 
             Console.WriteLine("Starting DHCP Server....");
+            Networking.Disable80211(); //Disable for DHCP
             DhcpServer dhcpServer = new DhcpServer();
             dhcpServer.CaptivePortalUrl = $"http://{SoftApIP}";
             var result = dhcpServer.Start(IPAddress.Parse(SoftApIP), new IPAddress(new byte[] { 255, 255, 255, 0 }), 1200);
@@ -51,6 +52,7 @@ namespace OpenHalo.Windows
                 WebServer = new WebServer(80, HttpProtocol.Http, new Type[] { typeof(WebController)} );
             WebServer.Start();
 
+            Networking.Enable80211(); //Enable for WiFi scan
             var adapter = Networking.GetAdapter();
             adapter.AvailableNetworksChanged += Adapter_AvailableNetworksChanged;
             while (true)
