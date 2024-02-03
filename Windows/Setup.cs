@@ -73,6 +73,7 @@ namespace OpenHalo.Windows
 
         private void Adapter_AvailableNetworksChanged(System.Device.Wifi.WifiAdapter sender, object e)
         {
+            Console.WriteLine("Found " + sender.NetworkReport.AvailableNetworks.Length + " nearby networks.");
             NearbyAPs = JsonConvert.SerializeObject(sender.NetworkReport.AvailableNetworks);
         }
 

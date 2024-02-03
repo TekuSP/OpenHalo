@@ -65,7 +65,7 @@ namespace OpenHalo.Helpers
         public static void Enable80211()
         {
             Wireless80211Configuration config = Get80211Configuration(); //Disable WIFI
-            config.Options = Wireless80211Configuration.ConfigurationOptions.Enable;
+            config.Options = Wireless80211Configuration.ConfigurationOptions.AutoConnect;
             config.Ssid = "";
             config.Password = "";
             config.SaveConfiguration();
@@ -77,7 +77,7 @@ namespace OpenHalo.Helpers
         public static void Disable80211()
         {
             Wireless80211Configuration config = Get80211Configuration(); //Disable WIFI
-            config.Options = Wireless80211Configuration.ConfigurationOptions.Disable;
+            config.Options = Wireless80211Configuration.ConfigurationOptions.None;
             config.Ssid = "";
             config.Password = "";
             config.SaveConfiguration();
@@ -93,7 +93,7 @@ namespace OpenHalo.Helpers
             Console.WriteLine("Enabling Wifi AP Mode...");
             NetworkInterface ni = GetInterface();
             WirelessAPConfiguration wirelessAPConfiguration = GetConfiguration();
-            Enable80211();
+            Disable80211();
 
             ni.EnableStaticIPv4(SoftApIP, "255.255.255.0", SoftApIP);
             Console.WriteLine($"Static IP {SoftApIP}/24 is set...");
@@ -127,9 +127,6 @@ namespace OpenHalo.Helpers
             wirelessAPConfiguration.Options = WirelessAPConfiguration.ConfigurationOptions.None;
             wirelessAPConfiguration.SaveConfiguration();
             Enable80211();
-            Wireless80211Configuration config = Get80211Configuration();
-            config.Options = Wireless80211Configuration.ConfigurationOptions.AutoConnect;
-            config.SaveConfiguration();
             Console.WriteLine("Reboot to save WIFI configuration....");
             HaloWindow.App.MainWindow.Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
             {
@@ -152,10 +149,6 @@ namespace OpenHalo.Helpers
             wirelessAPConfiguration.Options = WirelessAPConfiguration.ConfigurationOptions.None;
             wirelessAPConfiguration.SaveConfiguration();
             Enable80211();
-            Wireless80211Configuration config = Get80211Configuration();
-            config.Options = Wireless80211Configuration.ConfigurationOptions.AutoConnect;
-            config.SaveConfiguration();
-            Console.WriteLine("Enable WIFI Client mode...");
             Console.WriteLine("Reboot to save WIFI configuration....");
             HaloWindow.App.MainWindow.Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
             {
