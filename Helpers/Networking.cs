@@ -93,10 +93,7 @@ namespace OpenHalo.Helpers
             Console.WriteLine("Enabling Wifi AP Mode...");
             NetworkInterface ni = GetInterface();
             WirelessAPConfiguration wirelessAPConfiguration = GetConfiguration();
-            Wireless80211Configuration config = Get80211Configuration(); //Disable WIFI
-            config.Options = Wireless80211Configuration.ConfigurationOptions.Disable;
-            config.SaveConfiguration();
-            Console.WriteLine("Disabled WIFI Client mode...");
+            Enable80211();
 
             ni.EnableStaticIPv4(SoftApIP, "255.255.255.0", SoftApIP);
             Console.WriteLine($"Static IP {SoftApIP}/24 is set...");
@@ -129,10 +126,10 @@ namespace OpenHalo.Helpers
             Console.WriteLine("Disabled WIFI AP Mode....");
             wirelessAPConfiguration.Options = WirelessAPConfiguration.ConfigurationOptions.None;
             wirelessAPConfiguration.SaveConfiguration();
+            Enable80211();
             Wireless80211Configuration config = Get80211Configuration();
             config.Options = Wireless80211Configuration.ConfigurationOptions.AutoConnect;
             config.SaveConfiguration();
-            Console.WriteLine("Enable WIFI Client mode...");
             Console.WriteLine("Reboot to save WIFI configuration....");
             HaloWindow.App.MainWindow.Dispatcher.Invoke(TimeSpan.MaxValue, (args) =>
             {
@@ -154,6 +151,7 @@ namespace OpenHalo.Helpers
             Console.WriteLine("Disabled WIFI AP Mode....");
             wirelessAPConfiguration.Options = WirelessAPConfiguration.ConfigurationOptions.None;
             wirelessAPConfiguration.SaveConfiguration();
+            Enable80211();
             Wireless80211Configuration config = Get80211Configuration();
             config.Options = Wireless80211Configuration.ConfigurationOptions.AutoConnect;
             config.SaveConfiguration();
@@ -176,8 +174,6 @@ namespace OpenHalo.Helpers
                 return false;
             if (GetConfiguration().Options != (WirelessAPConfiguration.ConfigurationOptions.Enable | WirelessAPConfiguration.ConfigurationOptions.AutoStart))
                 return false;
-            if (!(Get80211Configuration().Options == Wireless80211Configuration.ConfigurationOptions.Disable || Get80211Configuration().Options == Wireless80211Configuration.ConfigurationOptions.Enable))
-                return false;
             return true;
         }
         /// <summary>
@@ -191,7 +187,7 @@ namespace OpenHalo.Helpers
                 return false;
             if (GetConfiguration().Options != WirelessAPConfiguration.ConfigurationOptions.None)
                 return false;
-            if (Get80211Configuration().Options == Wireless80211Configuration.ConfigurationOptions.None)
+            if (Get80211Configuration().Options != Wireless80211Configuration.ConfigurationOptions.AutoConnect)
                 return false;
             return true;
         }
