@@ -20,7 +20,7 @@ jobs:
       solution: 'OpenHalo.sln'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.1.4
+        uses: actions/checkout@v4.1.7
         with:
           fetch-depth: 0
           
@@ -47,7 +47,7 @@ jobs:
           nuget-version: 'latest'
           
       - name: Install Nanoframework Extension
-        uses: nanoframework/nanobuild@v1.14
+        uses: nanoframework/nanobuild@v1.15
         env:
           GITHUB_AUTH_TOKEN: ${{ secrets.githubAuth }}
           

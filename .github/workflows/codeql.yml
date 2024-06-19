@@ -49,7 +49,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4.1.4
+      uses: actions/checkout@v4.1.7
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
@@ -95,7 +95,7 @@ jobs:
         nuget-version: 'latest'
 
     - name: Install Nanoframework Extension
-      uses: nanoframework/nanobuild@v1.14
+      uses: nanoframework/nanobuild@v1.15
       env:
         GITHUB_AUTH_TOKEN: ${{ secrets.githubAuth }}
 
