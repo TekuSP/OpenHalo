@@ -40,7 +40,7 @@ jobs:
 
       - uses: nanoframework/nanodu@v1.0.26
         env:
-          GITHUB_TOKEN: ${{ secrets.PR_SECRET }}
+          GITHUB_TOKEN: ${{ github.token }}
           GITHUB_AUTH: ${{ secrets.PR_SECRET }}
         with:
           previewPackages: false
