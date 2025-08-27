@@ -1,5 +1,6 @@
 # Copyright (c) .NET Foundation and Contributors
-# https://github.com/networkfusion/MBN-TinyCLR/ original build
+# https://github.com/networkfusion/MBN-TinyCLR/ original build, merged with https://github.com/TekuSP/Meteostanice-CSharp/
+
 name: Daily update dependencies
 
 on: 
@@ -8,6 +9,7 @@ on:
   - cron:  '0 0 * * *'
   repository_dispatch:
     types: update-dependencies
+  workflow_dispatch:
 
 defaults:
   run:
@@ -21,9 +23,28 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5.0.0
-      - uses: nanoframework/nanodu@v1.0.25
+      - name: Install NuGet client
+        uses: nuget/setup-nuget@v2.0.1
+        with:
+          nuget-version: 'latest'
+          
+      - name: Set branch environment variable
+        run: |
+          $tagName = "${{ github.ref_name }}"
+          if (([string]::IsNullOrEmpty($tagName)))
+          {
+             $tagName = "master"
+          }
+          echo "targetBranch=$tagName" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        shell: pwsh # Explicitly use PowerShell Core (default on windows-latest for 'run')
+
+      - uses: nanoframework/nanodu@v1.0.26
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.PR_SECRET }}
+          GITHUB_AUTH: ${{ secrets.PR_SECRET }}
         with:
           previewPackages: false
-          solutionsToCheck: OpenHalo.sln
+          solutionsToCheck: 'OpenHalo.sln'
+          nugetConfig: 'nuget.config'
+          gitHubAuth: '${{ env.GITHUB_AUTH }}'
+          branchToPr: '${{ env.targetBranch }}'
