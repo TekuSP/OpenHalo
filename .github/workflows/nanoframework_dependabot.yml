@@ -40,7 +40,6 @@ jobs:
 
       - uses: nanoframework/nanodu@v1.0.26
         env:
-          GITHUB_TOKEN: ${{ secrets.PR_SECRET }}
           GITHUB_AUTH: ${{ secrets.PR_SECRET }}
         with:
           previewPackages: false
@@ -48,3 +47,6 @@ jobs:
           nugetConfig: 'nuget.config'
           gitHubAuth: '${{ env.GITHUB_AUTH }}'
           branchToPr: '${{ env.targetBranch }}'
+          repoOwner: 'TekuSP'
+          gitHubUser: 'TekuSP'
+          gitHubEmail: 'richard.torhan@windowslive.com'
