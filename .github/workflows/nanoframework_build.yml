@@ -25,7 +25,7 @@ jobs:
           fetch-depth: 0
           
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4.1.0
+        uses: actions/setup-dotnet@v4.3.1
         with:
           dotnet-version: 9.0.x
 
@@ -55,7 +55,7 @@ jobs:
         run: nuget restore ${{ env.solution }} -ConfigFile nuget.config
         
       - name: Cache SonarCloud packages
-        uses: actions/cache@v4.2.0
+        uses: actions/cache@v4.2.4
         with:
           path: ~\sonar\cache
           key: ${{ runner.os }}-sonar
@@ -63,7 +63,7 @@ jobs:
 
       - name: Cache SonarCloud scanner
         id: cache-sonar-scanner
-        uses: actions/cache@v4.2.0
+        uses: actions/cache@v4.2.4
         with:
           path: .\.sonar\scanner
           key: ${{ runner.os }}-sonar-scanner
