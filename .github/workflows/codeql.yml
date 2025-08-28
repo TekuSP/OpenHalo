@@ -90,7 +90,7 @@ jobs:
         msbuild-architecture: x64
 
     - name: Install NuGet client
-      uses: nuget/setup-nuget@v2.0.0
+      uses: nuget/setup-nuget@v2.0.1
       with:
         nuget-version: 'latest'
 
