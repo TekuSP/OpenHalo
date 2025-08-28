@@ -26,7 +26,7 @@ namespace OpenHalo.Windows
         /// Constructor to construct a Window
         /// </summary>
         /// <param name="app">Requires App main class</param>
-        protected HaloWindow(OpenHaloApplication app)
+        protected HaloWindow(OpenHaloApplication app) : base()
         {
             App = app;
 

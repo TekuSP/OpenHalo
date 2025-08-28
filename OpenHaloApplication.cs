@@ -20,7 +20,6 @@ namespace OpenHalo
 {
     public class OpenHaloApplication : Application
     {
-        static Window mainWindow;
         public static MainConfig config;
         public static Font NinaBFont;
         public static Font SmallFont;
@@ -110,17 +109,18 @@ namespace OpenHalo
             Console.WriteLine("Framework initialized!");
             Console.WriteLine("Loading config...");
             config = ConfigHelper.LoadConfig();
+            Window window;
             if (config == null || Networking.IsAPModeEnabled())
             {
                 Console.WriteLine("No configuration loaded or Setup requested.");
                 Console.WriteLine("Loading Setup window...");
-                mainWindow = new Setup(myApplication);
+                window = new Setup(myApplication);
             }
             else
             {
                 Console.WriteLine("Configuration loaded.");
                 Console.WriteLine("Loading connecting window...");
-                mainWindow = new EnterSetup(myApplication);
+                window = new EnterSetup(myApplication);
             }
 
 
@@ -146,7 +146,7 @@ namespace OpenHalo
             //th.Start();
 
             Console.WriteLine("Rendering and launching app!");
-            myApplication.Run();
+            myApplication.Run(window);
         }
 
         //private static void WifiAdapter_AvailableNetworksChanged(WifiAdapter sender, object e)
