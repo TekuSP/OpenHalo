@@ -1,24 +1,9 @@
-pull_request_rules:
-    - name: Automatically merge PRs
-      conditions:   
-      - "#approved-reviews-by>=1"
-      actions:
-        merge:
-          method: merge
-          commit_message_template: |
-            Merge from {{ head }}
-                        
-            {{ title }} (#{{ number }})
-                        
-            {{ body }}
-                        
-            {% for user in approved_reviews_by %}
-            Approved-By: {{user}}
-            {% endfor %}
-          
+pull_request_rules:          
     - name: Automatically Dependenabot bot's PRs
       conditions:
       - author=dependabot[bot]
+      - "check-success = Build NanoFramework SLN (Release)"
+      - "#commits-behind = 0"
       actions:
         merge:
           method: merge
@@ -28,10 +13,82 @@ pull_request_rules:
             {{ title }} (#{{ number }})
             
             {{ body }}
-          
+        label:
+          toggle:
+             - cleanup
+             - automated
+
+    - name: Automatically Nanodu Dependenabot bot's PRs
+      conditions:
+      - author=TekuSP
+      - "head ~=nfbot/update-dependencies/"
+      - "check-success = Build NanoFramework SLN (Release)"
+      - "#commits-behind = 0"
+      actions:
+        merge:
+          method: merge
+          commit_message_template: |
+            Automerge from {{ head }}
+            
+            {{ title }} (#{{ number }})
+            
+            {{ body }}
+        label:
+          toggle:
+             - cleanup
+             - automated
+             
+    - name: Automatically Changelog PRs
+      conditions:
+      - author=TekuSP
+      - "head ~=update-changelog"
+      - "check-success = Build NanoFramework SLN (Release)"
+      - "#commits-behind = 0"
+      actions:
+        merge:
+          method: merge
+          commit_message_template: |
+            Automerge from {{ head }}
+            
+            {{ title }} (#{{ number }})
+            
+            {{ body }}
+        label:
+          toggle:
+             - cleanup
+             - automated
+             
+    - name: Automatically approve Changelog PRs
+      conditions:
+      - author=TekuSP
+      - "head ~=update-changelog"
+      - "check-success = Build NanoFramework SLN (Release)"
+      - "#commits-behind = 0"
+      actions:
+        review:
+          type: APPROVE
+        label:
+            toggle:
+              - approved
+
+    - name: Automatically approve Nanodu Dependenabot bot's PRs
+      conditions:
+      - author=TekuSP
+      - "head ~=nfbot/update-dependencies/"
+      - "check-success = Build NanoFramework SLN (Release)"
+      - "#commits-behind = 0"
+      actions:
+        review:
+          type: APPROVE
+        label:
+            toggle:
+              - approved
+            
     - name: Automatically approve Dependenabot bot's PRs
       conditions:
       - author=dependabot[bot]
+      - "check-success = Build NanoFramework SLN (Release)"
+      - "#commits-behind = 0"
       actions:
         review:
           type: APPROVE
@@ -42,7 +99,23 @@ pull_request_rules:
     - name: Automatic update Depenedabot pull requests if they are commits behind
       conditions:
       - author=dependabot[bot]
-      - "#commits-behind > 1"
+      - "#commits-behind > 0"
+      actions:
+         update:
+
+    - name: Automatic update Nanodu Depenedabot pull requests if they are commits behind
+      conditions:
+      - author=TekuSP
+      - "head ~=nfbot/update-dependencies/"
+      - "#commits-behind > 0"
+      actions:
+         update:
+    
+    - name: Automatic update ChangeRequest pull requests if they are commits behind
+      conditions:
+      - author=TekuSP
+      - "head ~=update-changelog"
+      - "#commits-behind > 0"
       actions:
          update:
       
@@ -59,6 +132,9 @@ pull_request_rules:
     - name: Comment when is merged
       conditions:
       - merged
+      - "-head ~=update-changelog"
+      - "-head ~=nfbot/update-dependencies/"
+      - "author!=dependabot[bot]"
       actions:
         comment:
            message: Thank you for your contribution @{{author}}! Your pull request has been merged.
@@ -77,4 +153,10 @@ pull_request_rules:
         label:
           toggle:
             - "In Review"
-                
+            
+    - name: Delete head branch after merge if the label "cleanup" is present
+      conditions:
+        - merged
+        - label = cleanup
+      actions:
+        delete_head_branch:
