@@ -92,9 +92,6 @@
     <Reference Include="nanoFramework.System.Collections, Version=1.5.67.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>packages\nanoFramework.System.Collections.1.5.67\lib\nanoFramework.System.Collections.dll</HintPath>
     </Reference>
-    <Reference Include="nanoFramework.System.Runtime, Version=1.0.28.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>packages\nanoFramework.System.Runtime.1.0.28\lib\nanoFramework.System.Runtime.dll</HintPath>
-    </Reference>
     <Reference Include="nanoFramework.System.Text, Version=1.3.42.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>packages\nanoFramework.System.Text.1.3.42\lib\nanoFramework.System.Text.dll</HintPath>
     </Reference>
@@ -136,12 +133,6 @@
     </Reference>
     <Reference Include="TekuSP.Drivers.DriverBaseI2C, Version=0.3.71.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>packages\TekuSP.Drivers.DriverBaseI2C.0.4.596\lib\TekuSP.Drivers.DriverBaseI2C.dll</HintPath>
-    </Reference>
-    <Reference Include="Windows.Storage, Version=1.5.62.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>packages\nanoFramework.Windows.Storage.1.5.62\lib\Windows.Storage.dll</HintPath>
-    </Reference>
-    <Reference Include="Windows.Storage.Streams, Version=1.14.44.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>packages\nanoFramework.Windows.Storage.Streams.1.14.44\lib\Windows.Storage.Streams.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

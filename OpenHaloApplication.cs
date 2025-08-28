@@ -7,7 +7,6 @@ using System.Device.Gpio;
 using System.Diagnostics;
 using nanoFramework.Hardware.Esp32;
 using System.IO;
-using Windows.Storage;
 using nanoFramework.Json;
 using OpenHalo.Configs;
 using OpenHalo.Windows;

@@ -6,8 +6,6 @@ using nanoFramework.Json;
 
 using OpenHalo.Configs;
 
-using Windows.Storage;
-
 namespace OpenHalo.Helpers
 {
     public class ConfigHelper
@@ -29,8 +27,7 @@ namespace OpenHalo.Helpers
             if (File.Exists(ConfigPath))
             {
                 Console.WriteLine("Found configuration file, reading...");
-                var file = StorageFile.GetFileFromPath(ConfigPath);
-                var configString = FileIO.ReadText(file);
+                var configString = File.ReadAllText(ConfigPath);
                 try
                 {
                     _ = JsonConvert.DeserializeObject(configString, typeof(MainConfig));
@@ -56,8 +53,7 @@ namespace OpenHalo.Helpers
             if (File.Exists(BackupConfigPath))
             {
                 Console.WriteLine("Found backup configuration file, reading...");
-                var file = StorageFile.GetFileFromPath(BackupConfigPath);
-                var configString = FileIO.ReadText(file);
+                var configString = File.ReadAllText(BackupConfigPath);
                 try
                 {
                     _ = JsonConvert.DeserializeObject(configString, typeof(MainConfig));
@@ -82,15 +78,13 @@ namespace OpenHalo.Helpers
         {
             if (VerifyConfig())
             {
-                var file = StorageFile.GetFileFromPath(ConfigPath);
-                var configString = FileIO.ReadText(file);
+                var configString = File.ReadAllText(ConfigPath);
                 Console.WriteLine("Main configuration found and valid, returning config object.");
                 return (MainConfig)JsonConvert.DeserializeObject(configString, typeof(MainConfig));
             }
             if (VerifyBackupConfig())
             {
-                var file = StorageFile.GetFileFromPath(BackupConfigPath);
-                var configString = FileIO.ReadText(file);
+                var configString = File.ReadAllText(BackupConfigPath);
                 Console.WriteLine("Backup configuration file found and valid, copying to main...");
                 var config = (MainConfig)JsonConvert.DeserializeObject(configString, typeof(MainConfig));
                 SaveConfig(config);
@@ -109,9 +103,7 @@ namespace OpenHalo.Helpers
             var data = JsonConvert.SerializeObject(config);
 
             //Primary config
-            File.Create(ConfigPath);
-            var file = StorageFile.GetFileFromPath(ConfigPath);
-            FileIO.WriteText(file, data);
+            File.WriteAllText(ConfigPath, data);
             Console.WriteLine("Primary config overwritten.");
             if (!VerifyConfig())
             {
@@ -120,9 +112,7 @@ namespace OpenHalo.Helpers
             }
 
             //Backup config
-            File.Create(BackupConfigPath);
-            file = StorageFile.GetFileFromPath(BackupConfigPath);
-            FileIO.WriteText(file, data);
+            File.WriteAllText(BackupConfigPath, data);
             Console.WriteLine("Backup config overwritten.");
             if (!VerifyBackupConfig())
             {
