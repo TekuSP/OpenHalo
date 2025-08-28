@@ -47,7 +47,7 @@ jobs:
           nuget-version: 'latest'
           
       - name: Install Nanoframework Extension
-        uses: nanoframework/nanobuild@v1.15
+        uses: nanoframework/nanobuild@v1.16
         env:
           GITHUB_AUTH_TOKEN: ${{ secrets.githubAuth }}
           
