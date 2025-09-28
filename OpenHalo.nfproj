@@ -51,13 +51,13 @@
       <HintPath>packages\nanoFramework.Iot.Device.DhcpServer.1.2.851\lib\Iot.Device.DhcpServer.dll</HintPath>
     </Reference>
     <Reference Include="MakoIoT.Device.Services.Interface, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>packages\MakoIoT.Device.Services.Interface.1.0.56.42770\lib\MakoIoT.Device.Services.Interface.dll</HintPath>
+      <HintPath>packages\MakoIoT.Device.Services.Interface.1.0.57.48509\lib\MakoIoT.Device.Services.Interface.dll</HintPath>
     </Reference>
     <Reference Include="MakoIoT.Device.Services.Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>packages\MakoIoT.Device.Services.Server.1.0.96.29786\lib\MakoIoT.Device.Services.Server.dll</HintPath>
+      <HintPath>packages\MakoIoT.Device.Services.Server.1.0.97.63898\lib\MakoIoT.Device.Services.Server.dll</HintPath>
     </Reference>
     <Reference Include="MakoIoT.Device.Utilities.String, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>packages\MakoIoT.Device.Utilities.String.1.0.43.34490\lib\MakoIoT.Device.Utilities.String.dll</HintPath>
+      <HintPath>packages\MakoIoT.Device.Utilities.String.1.0.44.38123\lib\MakoIoT.Device.Utilities.String.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib, Version=1.17.11.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>packages\nanoFramework.CoreLibrary.1.17.11\lib\mscorlib.dll</HintPath>
