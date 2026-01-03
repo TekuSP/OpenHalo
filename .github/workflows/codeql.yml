@@ -116,6 +116,6 @@ jobs:
         Configuration: Release
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@codeql-bundle-20230524
+      uses: github/codeql-action/analyze@v4
       with:
         category: "/language:${{matrix.language}}"
