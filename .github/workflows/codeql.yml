@@ -88,7 +88,7 @@ jobs:
     #     ./location_of_script_within_repo/buildscript.sh
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v5.0.1
+      uses: actions/setup-dotnet@v5.1.0
       with:
         dotnet-version: 7.0.x
 
