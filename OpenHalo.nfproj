@@ -126,13 +126,13 @@
       <HintPath>packages\nanoFramework.System.Threading.1.1.52\lib\System.Threading.dll</HintPath>
     </Reference>
     <Reference Include="TekuSP.Drivers.CST816D, Version=0.3.71.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>packages\TekuSP.Drivers.CST816D.0.4.596\lib\TekuSP.Drivers.CST816D.dll</HintPath>
+      <HintPath>packages\TekuSP.Drivers.CST816D.0.4.702\lib\TekuSP.Drivers.CST816D.dll</HintPath>
     </Reference>
     <Reference Include="TekuSP.Drivers.DriverBase, Version=0.3.71.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>packages\TekuSP.Drivers.DriverBase.0.4.596\lib\TekuSP.Drivers.DriverBase.dll</HintPath>
+      <HintPath>packages\TekuSP.Drivers.DriverBase.0.4.702\lib\TekuSP.Drivers.DriverBase.dll</HintPath>
     </Reference>
     <Reference Include="TekuSP.Drivers.DriverBaseI2C, Version=0.3.71.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>packages\TekuSP.Drivers.DriverBaseI2C.0.4.596\lib\TekuSP.Drivers.DriverBaseI2C.dll</HintPath>
+      <HintPath>packages\TekuSP.Drivers.DriverBaseI2C.0.4.702\lib\TekuSP.Drivers.DriverBaseI2C.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
