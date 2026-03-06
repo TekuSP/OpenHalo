@@ -38,7 +38,7 @@ jobs:
           echo "targetBranch=$tagName" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
         shell: pwsh # Explicitly use PowerShell Core (default on windows-latest for 'run')
 
-      - uses: nanoframework/nanodu@v1.0.26
+      - uses: nanoframework/nanodu@v1.0.27
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_AUTH: ${{ secrets.PR_SECRET }}
