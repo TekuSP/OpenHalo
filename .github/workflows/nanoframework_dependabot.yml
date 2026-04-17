@@ -24,7 +24,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6.0.2
       - name: Install NuGet client
-        uses: nuget/setup-nuget@v3.0.0
+        uses: nuget/setup-nuget@v3.1.0
         with:
           nuget-version: 'latest'
           
